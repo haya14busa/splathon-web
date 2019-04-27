@@ -1,6 +1,6 @@
 import { Component, Vue } from 'vue-property-decorator';
 import * as api from '@/swagger/splathon-api/api';
-
+import * as token from '@/lib/token';
 
 @Component
 export default class Login extends Vue {
@@ -23,10 +23,12 @@ export default class Login extends Vue {
         this.errmsg = 'Login failed';
         return;
       }
-    }).catch((err) => {
-      return err.json();
-    }).then((err: api.ModelError) => {
-      this.errmsg = err.message;
+      token.Set(res.token);
+      this.$router.push({name:'admin'});
+    }).catch((resp) => {
+      return resp.json().then((err: api.ModelError) => {
+        this.errmsg = err.message;
+      });
     });
   }
 }
