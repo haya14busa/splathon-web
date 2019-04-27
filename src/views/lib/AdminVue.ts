@@ -1,24 +1,19 @@
-<template>
-  <div class="admin">
-    <p>This is an admin page</p>
-  </div>
-</template>
-
-<script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 import * as token from '@/lib/token';
 
 @Component
-export default class AdminHome extends Vue {
-  private apiToken: string = '';
+export default class AdminVue extends Vue {
 
   protected beforeCreate() {
     const t = token.Get();
     if (t != null) {
-      this.apiToken = t;
       return;
     }
     this.$router.push({name: 'admin-login'});
   }
+
+  protected getAPIToken(): string {
+    return token.Get() || '';
+  }
 }
-</script>
+

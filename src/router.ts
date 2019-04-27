@@ -2,6 +2,8 @@ import Vue from 'vue';
 import Router from 'vue-router';
 import Home from './views/Home.vue';
 import AdminHome from './views/AdminHome.vue';
+import AdminSplathonEventHome from './views/admin/splathon/Event.vue';
+import AdminSplathonReception from './views/admin/splathon/Reception.vue';
 import Login from '@/components/Login/Login.vue';
 
 Vue.use(Router);
@@ -32,6 +34,18 @@ export default new Router({
       path: '/admin/login',
       name: 'admin-login',
       component: Login,
+    },
+    {
+      path: '/admin/splathon/v:event_numbering',
+      name: 'admin-splathon-event-home',
+      component: AdminSplathonEventHome,
+      children: [
+        {
+          path: 'reception',
+          name: 'admin-splathon-event-reception',
+          component: AdminSplathonReception,
+        },
+      ],
     },
   ],
 });

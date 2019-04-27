@@ -24,7 +24,7 @@ export default class Login extends Vue {
         return;
       }
       token.Set(res.token);
-      this.$router.push({name:'admin'});
+      this.$router.push({name: 'admin'});
     }).catch((resp) => {
       return resp.json().then((err: api.ModelError) => {
         this.errmsg = err.message;
