@@ -1,0 +1,29 @@
+version: 2
+
+jobs:
+  lint:
+    docker:
+      - image: circleci/node
+    steps:
+      - checkout
+      - run:
+          name: System information
+          command: 'node --version'
+      - run: 'curl -sfL https://raw.githubusercontent.com/reviewdog/reviewdog/master/install.sh| sh -s -- -b ./bin'
+      - run: 'yarn install'
+      - run: 'yarn run lint --format checkstyle || true | ./bin/reviewdog -f=checkstyle -name=vue-cli-service-lint -reporter=github-pr-check'
+
+  build:
+    docker:
+      - image: circleci/node
+    steps:
+      - checkout
+      - run: 'yarn install'
+      - run: 'yarn build'
+
+workflows:
+  version: 2
+  build_lint:
+    jobs:
+      - lint
+      - build
