@@ -1,6 +1,14 @@
 <template>
   <div class="admin">
-    <p>This is an admin page</p>
+    <ul>
+      <li>
+        <!-- TODO(haya14busa): List events from API -->
+        <router-link
+          :to="{ name: 'admin-splathon-event-home', params: { event_numbering: 10 }}">
+          Splathon #10
+        </router-link>
+      </li>
+    </ul>
   </div>
 </template>
 
