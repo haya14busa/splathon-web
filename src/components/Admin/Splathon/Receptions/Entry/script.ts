@@ -20,5 +20,8 @@ export default class ReceptionEntry extends Vue {
 
   protected created() {
     this.entry = cloneDeep(this.participant);
+    if (!this.entry.reception) {
+      this.entry.reception = {memo: ''};
+    }
   }
 }

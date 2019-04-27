@@ -27,7 +27,7 @@ export default class Receptions extends Vue {
         ;
         this.completed = res.participants
           .filter((p) => p.reception)
-          .sort((a, b) => a.reception.created_at_timestamp_sec - b.reception.created_at_timestamp_sec)
+          .sort((a, b) =>  b.reception.created_at_timestamp_sec - a.reception.created_at_timestamp_sec)
         ;
       }).catch((resp) => {
         console.log(resp);
