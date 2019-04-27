@@ -11,7 +11,7 @@ jobs:
           command: 'node --version'
       - run: 'curl -sfL https://raw.githubusercontent.com/reviewdog/reviewdog/master/install.sh| sh -s -- -b ./bin'
       - run: 'yarn install'
-      - run: 'yarn run lint --format checkstyle || true | ./bin/reviewdog -f=checkstyle -name=vue-cli-service-lint -reporter=github-pr-check'
+      - run: '$(npm bin)/vue-cli-service lint --format checkstyle > lint.result || true && cat lint.result | ./bin/reviewdog -f=checkstyle -name=vue-cli-service-lint -reporter=github-pr-check'
 
   build:
     docker:
