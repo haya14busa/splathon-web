@@ -14,7 +14,7 @@ build: build-ts
 .PHONY: build-ts
 build-ts: splathon-api/docs/swagger.yaml install
 	mkdir -p ./src/swagger/splathon-api
-	java -jar ./bin/swagger-codegen-cli.jar generate -i splathon-api/docs/swagger.yaml -l typescript-fetch -o ./src/swagger/splathon-api
+	java -jar ./bin/swagger-codegen-cli.jar generate -i splathon-api/docs/swagger.yaml -l typescript-fetch -o ./src/swagger/splathon-api --additional-properties modelPropertyNaming=original
 
 .PHONY: install
 install: bin/swagger-codegen-cli.jar
