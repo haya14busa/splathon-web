@@ -174,7 +174,7 @@ export interface GetNextMatchResponse {
      * @type {NextMatch}
      * @memberof GetNextMatchResponse
      */
-    nextMatch?: NextMatch;
+    next_match?: NextMatch;
 }
 
 /**
@@ -202,7 +202,7 @@ export interface LoginRequest {
      * @type {string}
      * @memberof LoginRequest
      */
-    userId: string;
+    user_id: string;
     /**
      * 
      * @type {string}
@@ -228,7 +228,7 @@ export interface LoginResponse {
      * @type {boolean}
      * @memberof LoginResponse
      */
-    isAdmin: boolean;
+    is_admin: boolean;
     /**
      * 所属チーム。観戦だとないこともある。またloginユーザーはSlack アカウントを共有している複数の参加者と紐ずいていることもあるが、所属チームは必ず1つ以下。
      * @type {Team}
@@ -284,7 +284,7 @@ export interface Match {
      * @type {string}
      * @memberof Match
      */
-    roundName?: string;
+    round_name?: string;
 }
 
 /**
@@ -346,37 +346,37 @@ export interface MemberDetail {
      * @type {string}
      * @memberof MemberDetail
      */
-    shortComment?: string;
+    short_comment?: string;
     /**
      * A+, X (2401~2500)
      * @type {string}
      * @memberof MemberDetail
      */
-    rankSplatZones?: string;
+    rank_splat_zones?: string;
     /**
      * A+, X (2401~2500)
      * @type {string}
      * @memberof MemberDetail
      */
-    rankTowerControl?: string;
+    rank_tower_control?: string;
     /**
      * A+, X (2401~2500)
      * @type {string}
      * @memberof MemberDetail
      */
-    rankRainmaker?: string;
+    rank_rainmaker?: string;
     /**
      * A+, X (2401~2500)
      * @type {string}
      * @memberof MemberDetail
      */
-    rankClamBlitz?: string;
+    rank_clam_blitz?: string;
     /**
      * メインウェポン/好きなブキ
      * @type {string}
      * @memberof MemberDetail
      */
-    mainWeapon?: string;
+    main_weapon?: string;
 }
 
 /**
@@ -410,19 +410,19 @@ export interface NextMatch {
      * @type {Team}
      * @memberof NextMatch
      */
-    ownTeam?: Team;
+    own_team?: Team;
     /**
      * 
      * @type {Team}
      * @memberof NextMatch
      */
-    opponentTeam?: Team;
+    opponent_team?: Team;
     /**
      * ラウンド名。e.g. 予選第1ラウンド, 決勝T1回戦, 決勝戦.
      * @type {string}
      * @memberof NextMatch
      */
-    roundName?: string;
+    round_name?: string;
     /**
      * 
      * @type {NextMatchRoom}
@@ -434,13 +434,13 @@ export interface NextMatch {
      * @type {number}
      * @memberof NextMatch
      */
-    matchOrderInRoom?: number;
+    match_order_in_room?: number;
     /**
      * 
      * @type {Match}
      * @memberof NextMatch
      */
-    matchDetail?: Match;
+    match_detail?: Match;
 }
 
 /**
@@ -480,7 +480,7 @@ export interface Notice {
      * @type {number}
      * @memberof Notice
      */
-    timestampSec: number;
+    timestamp_sec: number;
 }
 
 /**
@@ -500,61 +500,61 @@ export interface ParticipantReception {
      * @type {string}
      * @memberof ParticipantReception
      */
-    fullnameKana: string;
+    fullname_kana: string;
     /**
      * 所属企業名
      * @type {string}
      * @memberof ParticipantReception
      */
-    companyName: string;
+    company_name: string;
     /**
      * チーム名
      * @type {string}
      * @memberof ParticipantReception
      */
-    teamName?: string;
+    team_name?: string;
     /**
      * チームID(一応)
      * @type {number}
      * @memberof ParticipantReception
      */
-    teamId?: number;
+    team_id?: number;
     /**
      * 合計参加費(円)
      * @type {number}
      * @memberof ParticipantReception
      */
-    participantFee: number;
+    participant_fee: number;
     /**
      * 懇親会に参加するか否か
      * @type {boolean}
      * @memberof ParticipantReception
      */
-    joinParty: boolean;
+    join_party: boolean;
     /**
      * スタッフかどうか
      * @type {boolean}
      * @memberof ParticipantReception
      */
-    isStaff: boolean;
+    is_staff: boolean;
     /**
      * playerとして参加するかどうか。falseならスタッフか観戦
      * @type {boolean}
      * @memberof ParticipantReception
      */
-    isPlayer: boolean;
+    is_player: boolean;
     /**
      * Nintendo Switch doc を持ってきたか
      * @type {boolean}
      * @memberof ParticipantReception
      */
-    hasSwitchDock: boolean;
+    has_switch_dock: boolean;
     /**
      * 同伴者がいるかどうか。いる場合は用スプレッドシート確認。
      * @type {boolean}
      * @memberof ParticipantReception
      */
-    hasCompanion: boolean;
+    has_companion: boolean;
 }
 
 /**
@@ -592,7 +592,7 @@ export interface Rank {
      * @type {number}
      * @memberof Rank
      */
-    numOfMatches?: number;
+    num_of_matches?: number;
 }
 
 /**
@@ -606,7 +606,7 @@ export interface Ranking {
      * @type {string}
      * @memberof Ranking
      */
-    rankTime?: string;
+    rank_time?: string;
     /**
      * 
      * @type {Array<Rank>}
@@ -638,13 +638,13 @@ export interface ReceptionCode {
      * @type {string}
      * @memberof ReceptionCode
      */
-    shortText?: string;
+    short_text?: string;
     /**
      * Image URL of QR code
      * @type {string}
      * @memberof ReceptionCode
      */
-    qrcodeImg?: string;
+    qrcode_img?: string;
     /**
      * 
      * @type {string}
@@ -656,7 +656,7 @@ export interface ReceptionCode {
      * @type {string}
      * @memberof ReceptionCode
      */
-    codeType?: ReceptionCode.CodeTypeEnum;
+    code_type?: ReceptionCode.CodeTypeEnum;
 }
 
 /**
@@ -691,7 +691,7 @@ export interface ReceptionPartcipantsDataResponse {
      * @type {string}
      * @memberof ReceptionPartcipantsDataResponse
      */
-    slackInternalId?: string;
+    slack_internal_id?: string;
     /**
      * 1つのSlackIDで複数の参加者をカバーしている。また participants とは別に参加者情報のない同伴者が存在する可能性があり、 もしいる場合は has_companion flag が true となる
      * @type {Array<ParticipantReception>}
@@ -873,7 +873,7 @@ export interface Team {
      * @type {string}
      * @memberof Team
      */
-    shortComment?: string;
+    short_comment?: string;
     /**
      * 
      * @type {Array<Member>}
@@ -1243,22 +1243,22 @@ export const DefaultApiFetchParamCreator = function (configuration?: Configurati
         /**
          * Return detail team data
          * @param {number} eventId 
-         * @param {number} teamId team id
+         * @param {number} team_id team id
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getTeamDetail(eventId: number, teamId: number, options: any = {}): FetchArgs {
+        getTeamDetail(eventId: number, team_id: number, options: any = {}): FetchArgs {
             // verify required parameter 'eventId' is not null or undefined
             if (eventId === null || eventId === undefined) {
                 throw new RequiredError('eventId','Required parameter eventId was null or undefined when calling getTeamDetail.');
             }
-            // verify required parameter 'teamId' is not null or undefined
-            if (teamId === null || teamId === undefined) {
-                throw new RequiredError('teamId','Required parameter teamId was null or undefined when calling getTeamDetail.');
+            // verify required parameter 'team_id' is not null or undefined
+            if (team_id === null || team_id === undefined) {
+                throw new RequiredError('team_id','Required parameter team_id was null or undefined when calling getTeamDetail.');
             }
             const localVarPath = `/v{eventId}/teams/{team_id}`
                 .replace(`{${"eventId"}}`, encodeURIComponent(String(eventId)))
-                .replace(`{${"team_id"}}`, encodeURIComponent(String(teamId)));
+                .replace(`{${"team_id"}}`, encodeURIComponent(String(team_id)));
             const localVarUrlObj = url.parse(localVarPath, true);
             const localVarRequestOptions = Object.assign({ method: 'GET' }, options);
             const localVarHeaderParameter = {} as any;
@@ -1406,12 +1406,12 @@ export const DefaultApiFp = function(configuration?: Configuration) {
         /**
          * Return detail team data
          * @param {number} eventId 
-         * @param {number} teamId team id
+         * @param {number} team_id team id
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getTeamDetail(eventId: number, teamId: number, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<Team> {
-            const localVarFetchArgs = DefaultApiFetchParamCreator(configuration).getTeamDetail(eventId, teamId, options);
+        getTeamDetail(eventId: number, team_id: number, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<Team> {
+            const localVarFetchArgs = DefaultApiFetchParamCreator(configuration).getTeamDetail(eventId, team_id, options);
             return (fetch: FetchAPI = portableFetch, basePath: string = BASE_PATH) => {
                 return fetch(basePath + localVarFetchArgs.url, localVarFetchArgs.options).then((response) => {
                     if (response.status >= 200 && response.status < 300) {
@@ -1499,12 +1499,12 @@ export const DefaultApiFactory = function (configuration?: Configuration, fetch?
         /**
          * Return detail team data
          * @param {number} eventId 
-         * @param {number} teamId team id
+         * @param {number} team_id team id
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getTeamDetail(eventId: number, teamId: number, options?: any) {
-            return DefaultApiFp(configuration).getTeamDetail(eventId, teamId, options)(fetch, basePath);
+        getTeamDetail(eventId: number, team_id: number, options?: any) {
+            return DefaultApiFp(configuration).getTeamDetail(eventId, team_id, options)(fetch, basePath);
         },
         /**
          * Return notices
@@ -1559,13 +1559,13 @@ export class DefaultApi extends BaseAPI {
     /**
      * Return detail team data
      * @param {number} eventId 
-     * @param {number} teamId team id
+     * @param {number} team_id team id
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof DefaultApi
      */
-    public getTeamDetail(eventId: number, teamId: number, options?: any) {
-        return DefaultApiFp(this.configuration).getTeamDetail(eventId, teamId, options)(this.fetch, this.basePath);
+    public getTeamDetail(eventId: number, team_id: number, options?: any) {
+        return DefaultApiFp(this.configuration).getTeamDetail(eventId, team_id, options)(this.fetch, this.basePath);
     }
 
     /**
@@ -1649,11 +1649,11 @@ export const MatchApiFetchParamCreator = function (configuration?: Configuration
          * 次の試合を返す。team_id を指定した場合そのチームの、なければログインしている参加者のチームの 次のマッチをあれば返す。 team_idを指定せず参加者がチームに属して無い場合などはエラー。
          * @param {number} eventId 
          * @param {string} X_SPLATHON_API_TOKEN 
-         * @param {number} [teamId] team id
+         * @param {number} [team_id] team id
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getNextMatch(eventId: number, X_SPLATHON_API_TOKEN: string, teamId?: number, options: any = {}): FetchArgs {
+        getNextMatch(eventId: number, X_SPLATHON_API_TOKEN: string, team_id?: number, options: any = {}): FetchArgs {
             // verify required parameter 'eventId' is not null or undefined
             if (eventId === null || eventId === undefined) {
                 throw new RequiredError('eventId','Required parameter eventId was null or undefined when calling getNextMatch.');
@@ -1669,8 +1669,8 @@ export const MatchApiFetchParamCreator = function (configuration?: Configuration
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
-            if (teamId !== undefined) {
-                localVarQueryParameter['team_id'] = teamId;
+            if (team_id !== undefined) {
+                localVarQueryParameter['team_id'] = team_id;
             }
 
             if (X_SPLATHON_API_TOKEN !== undefined && X_SPLATHON_API_TOKEN !== null) {
@@ -1771,12 +1771,12 @@ export const MatchApiFp = function(configuration?: Configuration) {
          * 次の試合を返す。team_id を指定した場合そのチームの、なければログインしている参加者のチームの 次のマッチをあれば返す。 team_idを指定せず参加者がチームに属して無い場合などはエラー。
          * @param {number} eventId 
          * @param {string} X_SPLATHON_API_TOKEN 
-         * @param {number} [teamId] team id
+         * @param {number} [team_id] team id
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getNextMatch(eventId: number, X_SPLATHON_API_TOKEN: string, teamId?: number, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<GetNextMatchResponse> {
-            const localVarFetchArgs = MatchApiFetchParamCreator(configuration).getNextMatch(eventId, X_SPLATHON_API_TOKEN, teamId, options);
+        getNextMatch(eventId: number, X_SPLATHON_API_TOKEN: string, team_id?: number, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<GetNextMatchResponse> {
+            const localVarFetchArgs = MatchApiFetchParamCreator(configuration).getNextMatch(eventId, X_SPLATHON_API_TOKEN, team_id, options);
             return (fetch: FetchAPI = portableFetch, basePath: string = BASE_PATH) => {
                 return fetch(basePath + localVarFetchArgs.url, localVarFetchArgs.options).then((response) => {
                     if (response.status >= 200 && response.status < 300) {
@@ -1831,12 +1831,12 @@ export const MatchApiFactory = function (configuration?: Configuration, fetch?: 
          * 次の試合を返す。team_id を指定した場合そのチームの、なければログインしている参加者のチームの 次のマッチをあれば返す。 team_idを指定せず参加者がチームに属して無い場合などはエラー。
          * @param {number} eventId 
          * @param {string} X_SPLATHON_API_TOKEN 
-         * @param {number} [teamId] team id
+         * @param {number} [team_id] team id
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getNextMatch(eventId: number, X_SPLATHON_API_TOKEN: string, teamId?: number, options?: any) {
-            return MatchApiFp(configuration).getNextMatch(eventId, X_SPLATHON_API_TOKEN, teamId, options)(fetch, basePath);
+        getNextMatch(eventId: number, X_SPLATHON_API_TOKEN: string, team_id?: number, options?: any) {
+            return MatchApiFp(configuration).getNextMatch(eventId, X_SPLATHON_API_TOKEN, team_id, options)(fetch, basePath);
         },
         /**
          * Update a battle data in the match.
@@ -1876,13 +1876,13 @@ export class MatchApi extends BaseAPI {
      * 次の試合を返す。team_id を指定した場合そのチームの、なければログインしている参加者のチームの 次のマッチをあれば返す。 team_idを指定せず参加者がチームに属して無い場合などはエラー。
      * @param {number} eventId 
      * @param {string} X_SPLATHON_API_TOKEN 
-     * @param {number} [teamId] team id
+     * @param {number} [team_id] team id
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof MatchApi
      */
-    public getNextMatch(eventId: number, X_SPLATHON_API_TOKEN: string, teamId?: number, options?: any) {
-        return MatchApiFp(this.configuration).getNextMatch(eventId, X_SPLATHON_API_TOKEN, teamId, options)(this.fetch, this.basePath);
+    public getNextMatch(eventId: number, X_SPLATHON_API_TOKEN: string, team_id?: number, options?: any) {
+        return MatchApiFp(this.configuration).getNextMatch(eventId, X_SPLATHON_API_TOKEN, team_id, options)(this.fetch, this.basePath);
     }
 
     /**
@@ -2300,11 +2300,11 @@ export const ResultApiFetchParamCreator = function (configuration?: Configuratio
         /**
          * リザルト一覧を返す。リザルトと言いつつ終了していない未来のマッチも返す。ゲスト・管理アプリ両方から使う。team_idを指定するとそのチームのみの結果が返ってくる。
          * @param {number} eventId 
-         * @param {number} [teamId] team id
+         * @param {number} [team_id] team id
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getResult(eventId: number, teamId?: number, options: any = {}): FetchArgs {
+        getResult(eventId: number, team_id?: number, options: any = {}): FetchArgs {
             // verify required parameter 'eventId' is not null or undefined
             if (eventId === null || eventId === undefined) {
                 throw new RequiredError('eventId','Required parameter eventId was null or undefined when calling getResult.');
@@ -2316,8 +2316,8 @@ export const ResultApiFetchParamCreator = function (configuration?: Configuratio
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
-            if (teamId !== undefined) {
-                localVarQueryParameter['team_id'] = teamId;
+            if (team_id !== undefined) {
+                localVarQueryParameter['team_id'] = team_id;
             }
 
             localVarUrlObj.query = Object.assign({}, localVarUrlObj.query, localVarQueryParameter, options.query);
@@ -2342,12 +2342,12 @@ export const ResultApiFp = function(configuration?: Configuration) {
         /**
          * リザルト一覧を返す。リザルトと言いつつ終了していない未来のマッチも返す。ゲスト・管理アプリ両方から使う。team_idを指定するとそのチームのみの結果が返ってくる。
          * @param {number} eventId 
-         * @param {number} [teamId] team id
+         * @param {number} [team_id] team id
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getResult(eventId: number, teamId?: number, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<Results> {
-            const localVarFetchArgs = ResultApiFetchParamCreator(configuration).getResult(eventId, teamId, options);
+        getResult(eventId: number, team_id?: number, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<Results> {
+            const localVarFetchArgs = ResultApiFetchParamCreator(configuration).getResult(eventId, team_id, options);
             return (fetch: FetchAPI = portableFetch, basePath: string = BASE_PATH) => {
                 return fetch(basePath + localVarFetchArgs.url, localVarFetchArgs.options).then((response) => {
                     if (response.status >= 200 && response.status < 300) {
@@ -2370,12 +2370,12 @@ export const ResultApiFactory = function (configuration?: Configuration, fetch?:
         /**
          * リザルト一覧を返す。リザルトと言いつつ終了していない未来のマッチも返す。ゲスト・管理アプリ両方から使う。team_idを指定するとそのチームのみの結果が返ってくる。
          * @param {number} eventId 
-         * @param {number} [teamId] team id
+         * @param {number} [team_id] team id
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getResult(eventId: number, teamId?: number, options?: any) {
-            return ResultApiFp(configuration).getResult(eventId, teamId, options)(fetch, basePath);
+        getResult(eventId: number, team_id?: number, options?: any) {
+            return ResultApiFp(configuration).getResult(eventId, team_id, options)(fetch, basePath);
         },
     };
 };
@@ -2390,13 +2390,13 @@ export class ResultApi extends BaseAPI {
     /**
      * リザルト一覧を返す。リザルトと言いつつ終了していない未来のマッチも返す。ゲスト・管理アプリ両方から使う。team_idを指定するとそのチームのみの結果が返ってくる。
      * @param {number} eventId 
-     * @param {number} [teamId] team id
+     * @param {number} [team_id] team id
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof ResultApi
      */
-    public getResult(eventId: number, teamId?: number, options?: any) {
-        return ResultApiFp(this.configuration).getResult(eventId, teamId, options)(this.fetch, this.basePath);
+    public getResult(eventId: number, team_id?: number, options?: any) {
+        return ResultApiFp(this.configuration).getResult(eventId, team_id, options)(this.fetch, this.basePath);
     }
 
 }
