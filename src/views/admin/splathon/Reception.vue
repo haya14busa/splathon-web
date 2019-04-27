@@ -1,7 +1,6 @@
 <template>
   <div>
     <Receptions :token=apiToken :eventNumbering=$route.params.event_numbering />
-    reception end
   </div>
 </template>
 
