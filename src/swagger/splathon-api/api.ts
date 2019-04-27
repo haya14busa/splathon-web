@@ -194,6 +194,20 @@ export interface ListNoticesResponse {
 /**
  * 
  * @export
+ * @interface ListReceptionResponse
+ */
+export interface ListReceptionResponse {
+    /**
+     * 
+     * @type {Array<ParticipantReception>}
+     * @memberof ListReceptionResponse
+     */
+    participants?: Array<ParticipantReception>;
+}
+
+/**
+ * 
+ * @export
  * @interface LoginRequest
  */
 export interface LoginRequest {
@@ -490,6 +504,18 @@ export interface Notice {
  */
 export interface ParticipantReception {
     /**
+     * internal id
+     * @type {number}
+     * @memberof ParticipantReception
+     */
+    id: number;
+    /**
+     * Slack ID
+     * @type {string}
+     * @memberof ParticipantReception
+     */
+    slack_user_id: string;
+    /**
      * ハンドルネーム。 e.g. みーくん
      * @type {string}
      * @memberof ParticipantReception
@@ -555,6 +581,12 @@ export interface ParticipantReception {
      * @memberof ParticipantReception
      */
     has_companion: boolean;
+    /**
+     * 
+     * @type {Reception}
+     * @memberof ParticipantReception
+     */
+    reception?: Reception;
 }
 
 /**
@@ -613,6 +645,44 @@ export interface Ranking {
      * @memberof Ranking
      */
     rankings?: Array<Rank>;
+}
+
+/**
+ * 
+ * @export
+ * @interface Reception
+ */
+export interface Reception {
+    /**
+     * 
+     * @type {number}
+     * @memberof Reception
+     */
+    id: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof Reception
+     */
+    participant_id: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof Reception
+     */
+    created_at_timestamp_sec: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof Reception
+     */
+    updated_at_timestamp_sec: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof Reception
+     */
+    memo?: string;
 }
 
 /**
@@ -990,6 +1060,43 @@ export const AdminApiFetchParamCreator = function (configuration?: Configuration
             };
         },
         /**
+         * 
+         * @param {number} eventId 
+         * @param {string} X_SPLATHON_API_TOKEN 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        listReception(eventId: number, X_SPLATHON_API_TOKEN: string, options: any = {}): FetchArgs {
+            // verify required parameter 'eventId' is not null or undefined
+            if (eventId === null || eventId === undefined) {
+                throw new RequiredError('eventId','Required parameter eventId was null or undefined when calling listReception.');
+            }
+            // verify required parameter 'X_SPLATHON_API_TOKEN' is not null or undefined
+            if (X_SPLATHON_API_TOKEN === null || X_SPLATHON_API_TOKEN === undefined) {
+                throw new RequiredError('X_SPLATHON_API_TOKEN','Required parameter X_SPLATHON_API_TOKEN was null or undefined when calling listReception.');
+            }
+            const localVarPath = `/v{eventId}/list-reception`
+                .replace(`{${"eventId"}}`, encodeURIComponent(String(eventId)));
+            const localVarUrlObj = url.parse(localVarPath, true);
+            const localVarRequestOptions = Object.assign({ method: 'GET' }, options);
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            if (X_SPLATHON_API_TOKEN !== undefined && X_SPLATHON_API_TOKEN !== null) {
+                localVarHeaderParameter['X-SPLATHON-API-TOKEN'] = String(X_SPLATHON_API_TOKEN);
+            }
+
+            localVarUrlObj.query = Object.assign({}, localVarUrlObj.query, localVarQueryParameter, options.query);
+            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
+            delete localVarUrlObj.search;
+            localVarRequestOptions.headers = Object.assign({}, localVarHeaderParameter, options.headers);
+
+            return {
+                url: url.format(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
          * Update a battle data in the match.
          * @param {number} eventId 
          * @param {number} matchId match id
@@ -1091,6 +1198,25 @@ export const AdminApiFp = function(configuration?: Configuration) {
             };
         },
         /**
+         * 
+         * @param {number} eventId 
+         * @param {string} X_SPLATHON_API_TOKEN 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        listReception(eventId: number, X_SPLATHON_API_TOKEN: string, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<ListReceptionResponse> {
+            const localVarFetchArgs = AdminApiFetchParamCreator(configuration).listReception(eventId, X_SPLATHON_API_TOKEN, options);
+            return (fetch: FetchAPI = portableFetch, basePath: string = BASE_PATH) => {
+                return fetch(basePath + localVarFetchArgs.url, localVarFetchArgs.options).then((response) => {
+                    if (response.status >= 200 && response.status < 300) {
+                        return response.json();
+                    } else {
+                        throw response;
+                    }
+                });
+            };
+        },
+        /**
          * Update a battle data in the match.
          * @param {number} eventId 
          * @param {number} matchId match id
@@ -1143,6 +1269,16 @@ export const AdminApiFactory = function (configuration?: Configuration, fetch?: 
             return AdminApiFp(configuration).getParticipantsDataForReception(eventId, splathonReceptionCode, X_SPLATHON_API_TOKEN, options)(fetch, basePath);
         },
         /**
+         * 
+         * @param {number} eventId 
+         * @param {string} X_SPLATHON_API_TOKEN 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        listReception(eventId: number, X_SPLATHON_API_TOKEN: string, options?: any) {
+            return AdminApiFp(configuration).listReception(eventId, X_SPLATHON_API_TOKEN, options)(fetch, basePath);
+        },
+        /**
          * Update a battle data in the match.
          * @param {number} eventId 
          * @param {number} matchId match id
@@ -1188,6 +1324,18 @@ export class AdminApi extends BaseAPI {
      */
     public getParticipantsDataForReception(eventId: number, splathonReceptionCode: string, X_SPLATHON_API_TOKEN: string, options?: any) {
         return AdminApiFp(this.configuration).getParticipantsDataForReception(eventId, splathonReceptionCode, X_SPLATHON_API_TOKEN, options)(this.fetch, this.basePath);
+    }
+
+    /**
+     * 
+     * @param {number} eventId 
+     * @param {string} X_SPLATHON_API_TOKEN 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof AdminApi
+     */
+    public listReception(eventId: number, X_SPLATHON_API_TOKEN: string, options?: any) {
+        return AdminApiFp(this.configuration).listReception(eventId, X_SPLATHON_API_TOKEN, options)(this.fetch, this.basePath);
     }
 
     /**
