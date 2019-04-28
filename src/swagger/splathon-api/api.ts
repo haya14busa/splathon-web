@@ -966,6 +966,26 @@ export interface Teams {
     teams?: Array<Team>;
 }
 
+/**
+ * 
+ * @export
+ * @interface UpdateReceptionRequest
+ */
+export interface UpdateReceptionRequest {
+    /**
+     * 
+     * @type {ParticipantReception}
+     * @memberof UpdateReceptionRequest
+     */
+    participant: ParticipantReception;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof UpdateReceptionRequest
+     */
+    complete: boolean;
+}
+
 
 /**
  * AdminApi - fetch parameter creator
@@ -1148,6 +1168,52 @@ export const AdminApiFetchParamCreator = function (configuration?: Configuration
                 options: localVarRequestOptions,
             };
         },
+        /**
+         * 
+         * @param {number} eventId 
+         * @param {string} X_SPLATHON_API_TOKEN 
+         * @param {UpdateReceptionRequest} request 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        updateReception(eventId: number, X_SPLATHON_API_TOKEN: string, request: UpdateReceptionRequest, options: any = {}): FetchArgs {
+            // verify required parameter 'eventId' is not null or undefined
+            if (eventId === null || eventId === undefined) {
+                throw new RequiredError('eventId','Required parameter eventId was null or undefined when calling updateReception.');
+            }
+            // verify required parameter 'X_SPLATHON_API_TOKEN' is not null or undefined
+            if (X_SPLATHON_API_TOKEN === null || X_SPLATHON_API_TOKEN === undefined) {
+                throw new RequiredError('X_SPLATHON_API_TOKEN','Required parameter X_SPLATHON_API_TOKEN was null or undefined when calling updateReception.');
+            }
+            // verify required parameter 'request' is not null or undefined
+            if (request === null || request === undefined) {
+                throw new RequiredError('request','Required parameter request was null or undefined when calling updateReception.');
+            }
+            const localVarPath = `/v{eventId}/update-reception`
+                .replace(`{${"eventId"}}`, encodeURIComponent(String(eventId)));
+            const localVarUrlObj = url.parse(localVarPath, true);
+            const localVarRequestOptions = Object.assign({ method: 'POST' }, options);
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            if (X_SPLATHON_API_TOKEN !== undefined && X_SPLATHON_API_TOKEN !== null) {
+                localVarHeaderParameter['X-SPLATHON-API-TOKEN'] = String(X_SPLATHON_API_TOKEN);
+            }
+
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            localVarUrlObj.query = Object.assign({}, localVarUrlObj.query, localVarQueryParameter, options.query);
+            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
+            delete localVarUrlObj.search;
+            localVarRequestOptions.headers = Object.assign({}, localVarHeaderParameter, options.headers);
+            const needsSerialization = (<any>"UpdateReceptionRequest" !== "string") || localVarRequestOptions.headers['Content-Type'] === 'application/json';
+            localVarRequestOptions.body =  needsSerialization ? JSON.stringify(request || {}) : (request || "");
+
+            return {
+                url: url.format(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
     }
 };
 
@@ -1237,6 +1303,26 @@ export const AdminApiFp = function(configuration?: Configuration) {
                 });
             };
         },
+        /**
+         * 
+         * @param {number} eventId 
+         * @param {string} X_SPLATHON_API_TOKEN 
+         * @param {UpdateReceptionRequest} request 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        updateReception(eventId: number, X_SPLATHON_API_TOKEN: string, request: UpdateReceptionRequest, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<Response> {
+            const localVarFetchArgs = AdminApiFetchParamCreator(configuration).updateReception(eventId, X_SPLATHON_API_TOKEN, request, options);
+            return (fetch: FetchAPI = portableFetch, basePath: string = BASE_PATH) => {
+                return fetch(basePath + localVarFetchArgs.url, localVarFetchArgs.options).then((response) => {
+                    if (response.status >= 200 && response.status < 300) {
+                        return response;
+                    } else {
+                        throw response;
+                    }
+                });
+            };
+        },
     }
 };
 
@@ -1289,6 +1375,17 @@ export const AdminApiFactory = function (configuration?: Configuration, fetch?: 
          */
         updateBattle(eventId: number, matchId: number, battle: Battle, X_SPLATHON_API_TOKEN: string, options?: any) {
             return AdminApiFp(configuration).updateBattle(eventId, matchId, battle, X_SPLATHON_API_TOKEN, options)(fetch, basePath);
+        },
+        /**
+         * 
+         * @param {number} eventId 
+         * @param {string} X_SPLATHON_API_TOKEN 
+         * @param {UpdateReceptionRequest} request 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        updateReception(eventId: number, X_SPLATHON_API_TOKEN: string, request: UpdateReceptionRequest, options?: any) {
+            return AdminApiFp(configuration).updateReception(eventId, X_SPLATHON_API_TOKEN, request, options)(fetch, basePath);
         },
     };
 };
@@ -1350,6 +1447,19 @@ export class AdminApi extends BaseAPI {
      */
     public updateBattle(eventId: number, matchId: number, battle: Battle, X_SPLATHON_API_TOKEN: string, options?: any) {
         return AdminApiFp(this.configuration).updateBattle(eventId, matchId, battle, X_SPLATHON_API_TOKEN, options)(this.fetch, this.basePath);
+    }
+
+    /**
+     * 
+     * @param {number} eventId 
+     * @param {string} X_SPLATHON_API_TOKEN 
+     * @param {UpdateReceptionRequest} request 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof AdminApi
+     */
+    public updateReception(eventId: number, X_SPLATHON_API_TOKEN: string, request: UpdateReceptionRequest, options?: any) {
+        return AdminApiFp(this.configuration).updateReception(eventId, X_SPLATHON_API_TOKEN, request, options)(this.fetch, this.basePath);
     }
 
 }
