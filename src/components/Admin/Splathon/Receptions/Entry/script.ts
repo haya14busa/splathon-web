@@ -41,7 +41,8 @@ export default class ReceptionEntry extends Vue {
       participant: this.entry,
     }
     this.adminAPI.updateReception(this.eventNumbering, this.token, req).then(() => {
-      this.$router.go({name: 'admin-splathon-event-home', params: {event_numbering: this.eventNumbering}});
+      // TODO(haya14busa): propagate reload method instead of reloading the whole page?
+      location.reload();
     }).catch((resp) => {
       if (resp.json) {
         resp.json().then((err: api.ModelError) => {
