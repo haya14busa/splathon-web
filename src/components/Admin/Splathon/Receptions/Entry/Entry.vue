@@ -3,7 +3,7 @@
     <td>
       <button @click="onUpdate">更新</button>
     </td>
-    <td>参加登録: <input type="checkbox" v-model="complete"></td>
+    <td>受付: <input type="checkbox" v-model="complete"></td>
     <td>
       <span v-if=entry.reception.created_at_timestamp_sec>
         {{ entry.reception.created_at_timestamp_sec | toTime}}

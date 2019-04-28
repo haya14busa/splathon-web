@@ -1,12 +1,12 @@
 <template>
   <div>
-    <h3>登録完了</h3>
+    <h3>受付完了</h3>
     <table>
       <thead>
         <tr>
           <th>更新</th>
-          <th>登録</th>
-          <th>登録時刻</th>
+          <th>受付</th>
+          <th>受付時刻</th>
           <th>memo</th>
           <th>nickname</th>
           <th>fullname_kana</th>
@@ -27,13 +27,13 @@
       </tbody>
     </table>
 
-    <h3>未登録</h3>
+    <h3>受付未完了</h3>
     <table>
       <thead>
         <tr>
           <th>更新</th>
-          <th>登録</th>
-          <th>登録時刻</th>
+          <th>受付</th>
+          <th>受付時刻</th>
           <th>memo</th>
           <th>nickname</th>
           <th>fullname_kana</th>
