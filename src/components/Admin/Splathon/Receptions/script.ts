@@ -24,6 +24,15 @@ export default class Receptions extends Vue {
         }
         this.participants = res.participants
           .filter((p) => !p.reception)
+          // TODO(haya14busa): Support sorting by given column.
+          .sort((a, b) =>  {
+            if (a.fullname_kana < b.fullname_kana) {
+              return -1;
+            } else if (a.fullname_kana > b.fullname_kana) {
+              return 1;
+            }
+            return 0;
+          })
         ;
         this.completed = res.participants
           .filter((p) => p.reception)
