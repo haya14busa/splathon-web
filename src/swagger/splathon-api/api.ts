@@ -658,7 +658,7 @@ export interface Reception {
      * @type {number}
      * @memberof Reception
      */
-    id: number;
+    id?: number;
     /**
      * 
      * @type {number}
@@ -670,13 +670,13 @@ export interface Reception {
      * @type {number}
      * @memberof Reception
      */
-    created_at_timestamp_sec: number;
+    created_at_timestamp_sec?: number;
     /**
      * 
      * @type {number}
      * @memberof Reception
      */
-    updated_at_timestamp_sec: number;
+    updated_at_timestamp_sec?: number;
     /**
      * 
      * @type {string}
