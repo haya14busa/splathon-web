@@ -4,6 +4,8 @@
     <table>
       <thead>
         <tr>
+          <th>更新</th>
+          <th>登録</th>
           <th>登録時刻</th>
           <th>memo</th>
           <th>nickname</th>
@@ -29,6 +31,8 @@
     <table>
       <thead>
         <tr>
+          <th>更新</th>
+          <th>登録</th>
           <th>登録時刻</th>
           <th>memo</th>
           <th>nickname</th>

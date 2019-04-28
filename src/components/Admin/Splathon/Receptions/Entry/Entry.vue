@@ -1,6 +1,10 @@
 <template>
   <tr>
     <td>
+      <button @click="onUpdate">更新</button>
+    </td>
+    <td>参加登録: <input type="checkbox" v-model="complete"></td>
+    <td>
       <span v-if=entry.reception.created_at_timestamp_sec>
         {{ entry.reception.created_at_timestamp_sec | toTime}}
       </span>
@@ -14,7 +18,11 @@
     <td>{{ entry.fullname_kana }}</td>
     <td>{{ entry.company_name }}</td>
     <td>
-      <input type="text" v-model="entry.participant_fee">円
+      <vue-numeric-input
+        class="input-fee"
+        v-model="entry.participant_fee"
+        :controls="false"></vue-numeric-input>
+      <span class="fee-currency">円</span>
     </td>
     <td>同伴者: <input type="checkbox" v-model="entry.has_companion"></td>
     <td>懇親会: <input type="checkbox" v-model="entry.join_party"></td>
