@@ -8,3 +8,17 @@ td {
   max-width: 150px;
   padding: 5px;
 }
+input[type="text"] {
+  max-width: 80%;
+}
+textarea {
+  max-width: 90%;
+}
+.input-fee {
+  display: inline-block;
+  max-width: 70%;
+  margin-right: 2px;
+}
+.fee-currency {
+  display: inline-block;
+}
