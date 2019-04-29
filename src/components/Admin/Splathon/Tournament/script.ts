@@ -2,19 +2,6 @@ import { Component, Prop, Vue } from 'vue-property-decorator';
 import { DefaultApi, AdminApi, RankingApi, ResultApi } from '@/lib/api_factory';
 import * as api from '@/swagger/splathon-api/api';
 
-interface NextRound {
-  name?: string;
-  round?: number;
-  matches?: NextMatch[];
-}
-
-interface NextMatch {
-  alphaTeamID: number;
-  bravoTeamID: number;
-  roomID?: number;
-  matchOrderInRoom?: number;
-}
-
 @Component({})
 export default class Tournament extends Vue {
   @Prop() private token!: string;
@@ -28,7 +15,11 @@ export default class Tournament extends Vue {
   private tournamentSize = 8;
   private restTeamRanks: api.Rank[] = [];
 
-  private nextRound: NextRound = {};
+  private nextRound: api.AddTournamentRoundRequest = {
+    round_name: '',
+    round: 1,
+    matches: [],
+  };
 
   // TeamID => Rank.
   private teamRankMap = new Map<number, api.Rank>();
@@ -61,14 +52,11 @@ export default class Tournament extends Vue {
       roundName = '決勝';
     }
 
-    this.nextRound = {
-      round: round,
-      name: roundName,
-    };
-
     if (ranking.rankings.length < restTeamSize) {
       throw Error('# of ranking is below ' + restTeamSize);
     }
+
+    let newMatches: api.NewMatchRequest[] = [];
 
     const tpairs: TournamentMatch[] = tournamentPairs(this.tournamentSize);
 
@@ -88,24 +76,33 @@ export default class Tournament extends Vue {
     } else {
       this.restTeamRanks = ranking.rankings;
 
-      this.nextRound.matches = tpairs.map((pair, i) => {
+      newMatches = tpairs.map((pair, i) => {
         console.log(i);
         const roomID = this.rooms[i % this.rooms.length].id;
-        const n: NextMatch = {
-          alphaTeamID: ranking.rankings[pair.l-1].team.id,
-          bravoTeamID: ranking.rankings[pair.r-1].team.id,
-          matchOrderInRoom: Math.floor(i / this.rooms.length) + 1,
-          roomID: roomID,
+        const n: api.NewMatchRequest = {
+          alpha_team_id: ranking.rankings[pair.l-1].team.id,
+          bravo_team_id: ranking.rankings[pair.r-1].team.id,
+          order_in_room: Math.floor(i / this.rooms.length) + 1,
+          room_id: roomID,
         }
         return n;
       });
     }
+
+    this.nextRound = {
+      round: round,
+      round_name: roundName,
+      matches: newMatches,
+    };
   }
 
   private onAdd(event: Event) {
     event.preventDefault();
-    console.log(this.nextRound);
-    // debugger;
+    AdminApi.addTournamentRound(this.eventNumbering, this.token, this.nextRound)
+      .then(() => {
+        // TODO(haya14busa): propagate reload method instead of reloading the whole page?
+        location.reload();
+      }).catch(this.handleErr);
   }
 
   private teamSelectorName(teamID: number): string {
