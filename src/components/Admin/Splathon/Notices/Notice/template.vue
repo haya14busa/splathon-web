@@ -6,7 +6,7 @@
       <md-textarea required md-autogrow v-model="entry.text"></md-textarea>
     </md-field>
 
-    <md-button class="md-raised md-primary" @click="update_confirm = true">
+    <md-button class="md-raised md-primary" @click="updateConfirm = true">
       <span v-if="entry.id">
         更新
       </span>
@@ -15,18 +15,18 @@
       </span>
     </md-button>
     <md-dialog-confirm
-      :md-active.sync="update_confirm"
+      :md-active.sync="updateConfirm"
       md-title="お知らせを更新しますか？"
       :md-content="entry.text"
       md-confirm-text="OK"
       md-cancel-text="Cancel"
       @md-confirm="onUpdate" />
 
-    <md-button v-if="entry.id" class="md-raised md-accent" @click="delete_confirm = true">
+    <md-button v-if="entry.id" class="md-raised md-accent" @click="deleteConfirm = true">
       削除
     </md-button>
     <md-dialog-confirm
-      :md-active.sync="delete_confirm"
+      :md-active.sync="deleteConfirm"
       md-title="お知らせを削除しますか？"
       :md-content="entry.text"
       md-confirm-text="OK"

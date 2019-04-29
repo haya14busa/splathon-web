@@ -18,8 +18,8 @@ export default class Notice extends Vue {
   @Prop() private notice!: api.Notice;
 
   private entry: api.Notice;
-  private update_confirm = false;
-  private delete_confirm = false;
+  private updateConfirm = false;
+  private deleteConfirm = false;
 
   protected created() {
     this.entry = cloneDeep(this.notice);
