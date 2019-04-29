@@ -5,8 +5,10 @@
     <div id="admin-nav">
       <router-link
         :to="{ name: 'admin-splathon-event-reception', params: { event_numbering: $route.params.event_numbering }}">
-        Reception
-      </router-link>
+        Reception</router-link> |
+      <router-link
+        :to="{ name: 'admin-splathon-event-notices', params: { event_numbering: $route.params.event_numbering }}">
+        Notices</router-link>
     </div>
 
     <hr/>
