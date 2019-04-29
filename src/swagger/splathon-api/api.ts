@@ -485,6 +485,12 @@ export interface NextMatchRoom {
 export interface Notice {
     /**
      * 
+     * @type {number}
+     * @memberof Notice
+     */
+    id?: number;
+    /**
+     * 
      * @type {string}
      * @memberof Notice
      */
@@ -1037,6 +1043,49 @@ export const AdminApiFetchParamCreator = function (configuration?: Configuration
             };
         },
         /**
+         * 
+         * @param {number} eventId 
+         * @param {number} noticeId 
+         * @param {string} X_SPLATHON_API_TOKEN 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        deleteNotice(eventId: number, noticeId: number, X_SPLATHON_API_TOKEN: string, options: any = {}): FetchArgs {
+            // verify required parameter 'eventId' is not null or undefined
+            if (eventId === null || eventId === undefined) {
+                throw new RequiredError('eventId','Required parameter eventId was null or undefined when calling deleteNotice.');
+            }
+            // verify required parameter 'noticeId' is not null or undefined
+            if (noticeId === null || noticeId === undefined) {
+                throw new RequiredError('noticeId','Required parameter noticeId was null or undefined when calling deleteNotice.');
+            }
+            // verify required parameter 'X_SPLATHON_API_TOKEN' is not null or undefined
+            if (X_SPLATHON_API_TOKEN === null || X_SPLATHON_API_TOKEN === undefined) {
+                throw new RequiredError('X_SPLATHON_API_TOKEN','Required parameter X_SPLATHON_API_TOKEN was null or undefined when calling deleteNotice.');
+            }
+            const localVarPath = `/v{eventId}/notices/{noticeId}`
+                .replace(`{${"eventId"}}`, encodeURIComponent(String(eventId)))
+                .replace(`{${"noticeId"}}`, encodeURIComponent(String(noticeId)));
+            const localVarUrlObj = url.parse(localVarPath, true);
+            const localVarRequestOptions = Object.assign({ method: 'DELETE' }, options);
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            if (X_SPLATHON_API_TOKEN !== undefined && X_SPLATHON_API_TOKEN !== null) {
+                localVarHeaderParameter['X-SPLATHON-API-TOKEN'] = String(X_SPLATHON_API_TOKEN);
+            }
+
+            localVarUrlObj.query = Object.assign({}, localVarUrlObj.query, localVarQueryParameter, options.query);
+            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
+            delete localVarUrlObj.search;
+            localVarRequestOptions.headers = Object.assign({}, localVarHeaderParameter, options.headers);
+
+            return {
+                url: url.format(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
          * 参加者情報取得API
          * @param {number} eventId 
          * @param {string} splathonReceptionCode ReceptionResponse.splathon.code と同じもの(たぶん内部SlackID).
@@ -1214,6 +1263,52 @@ export const AdminApiFetchParamCreator = function (configuration?: Configuration
                 options: localVarRequestOptions,
             };
         },
+        /**
+         * Insert or update notices. Update if Notice.id is specified.
+         * @param {number} eventId 
+         * @param {string} X_SPLATHON_API_TOKEN 
+         * @param {Notice} notice 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        writeNotice(eventId: number, X_SPLATHON_API_TOKEN: string, notice: Notice, options: any = {}): FetchArgs {
+            // verify required parameter 'eventId' is not null or undefined
+            if (eventId === null || eventId === undefined) {
+                throw new RequiredError('eventId','Required parameter eventId was null or undefined when calling writeNotice.');
+            }
+            // verify required parameter 'X_SPLATHON_API_TOKEN' is not null or undefined
+            if (X_SPLATHON_API_TOKEN === null || X_SPLATHON_API_TOKEN === undefined) {
+                throw new RequiredError('X_SPLATHON_API_TOKEN','Required parameter X_SPLATHON_API_TOKEN was null or undefined when calling writeNotice.');
+            }
+            // verify required parameter 'notice' is not null or undefined
+            if (notice === null || notice === undefined) {
+                throw new RequiredError('notice','Required parameter notice was null or undefined when calling writeNotice.');
+            }
+            const localVarPath = `/v{eventId}/notices`
+                .replace(`{${"eventId"}}`, encodeURIComponent(String(eventId)));
+            const localVarUrlObj = url.parse(localVarPath, true);
+            const localVarRequestOptions = Object.assign({ method: 'POST' }, options);
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            if (X_SPLATHON_API_TOKEN !== undefined && X_SPLATHON_API_TOKEN !== null) {
+                localVarHeaderParameter['X-SPLATHON-API-TOKEN'] = String(X_SPLATHON_API_TOKEN);
+            }
+
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            localVarUrlObj.query = Object.assign({}, localVarUrlObj.query, localVarQueryParameter, options.query);
+            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
+            delete localVarUrlObj.search;
+            localVarRequestOptions.headers = Object.assign({}, localVarHeaderParameter, options.headers);
+            const needsSerialization = (<any>"Notice" !== "string") || localVarRequestOptions.headers['Content-Type'] === 'application/json';
+            localVarRequestOptions.body =  needsSerialization ? JSON.stringify(notice || {}) : (notice || "");
+
+            return {
+                url: url.format(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
     }
 };
 
@@ -1233,6 +1328,26 @@ export const AdminApiFp = function(configuration?: Configuration) {
          */
         completeReception(eventId: number, splathonReceptionCode: string, X_SPLATHON_API_TOKEN: string, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<Response> {
             const localVarFetchArgs = AdminApiFetchParamCreator(configuration).completeReception(eventId, splathonReceptionCode, X_SPLATHON_API_TOKEN, options);
+            return (fetch: FetchAPI = portableFetch, basePath: string = BASE_PATH) => {
+                return fetch(basePath + localVarFetchArgs.url, localVarFetchArgs.options).then((response) => {
+                    if (response.status >= 200 && response.status < 300) {
+                        return response;
+                    } else {
+                        throw response;
+                    }
+                });
+            };
+        },
+        /**
+         * 
+         * @param {number} eventId 
+         * @param {number} noticeId 
+         * @param {string} X_SPLATHON_API_TOKEN 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        deleteNotice(eventId: number, noticeId: number, X_SPLATHON_API_TOKEN: string, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<Response> {
+            const localVarFetchArgs = AdminApiFetchParamCreator(configuration).deleteNotice(eventId, noticeId, X_SPLATHON_API_TOKEN, options);
             return (fetch: FetchAPI = portableFetch, basePath: string = BASE_PATH) => {
                 return fetch(basePath + localVarFetchArgs.url, localVarFetchArgs.options).then((response) => {
                     if (response.status >= 200 && response.status < 300) {
@@ -1323,6 +1438,26 @@ export const AdminApiFp = function(configuration?: Configuration) {
                 });
             };
         },
+        /**
+         * Insert or update notices. Update if Notice.id is specified.
+         * @param {number} eventId 
+         * @param {string} X_SPLATHON_API_TOKEN 
+         * @param {Notice} notice 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        writeNotice(eventId: number, X_SPLATHON_API_TOKEN: string, notice: Notice, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<Response> {
+            const localVarFetchArgs = AdminApiFetchParamCreator(configuration).writeNotice(eventId, X_SPLATHON_API_TOKEN, notice, options);
+            return (fetch: FetchAPI = portableFetch, basePath: string = BASE_PATH) => {
+                return fetch(basePath + localVarFetchArgs.url, localVarFetchArgs.options).then((response) => {
+                    if (response.status >= 200 && response.status < 300) {
+                        return response;
+                    } else {
+                        throw response;
+                    }
+                });
+            };
+        },
     }
 };
 
@@ -1342,6 +1477,17 @@ export const AdminApiFactory = function (configuration?: Configuration, fetch?: 
          */
         completeReception(eventId: number, splathonReceptionCode: string, X_SPLATHON_API_TOKEN: string, options?: any) {
             return AdminApiFp(configuration).completeReception(eventId, splathonReceptionCode, X_SPLATHON_API_TOKEN, options)(fetch, basePath);
+        },
+        /**
+         * 
+         * @param {number} eventId 
+         * @param {number} noticeId 
+         * @param {string} X_SPLATHON_API_TOKEN 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        deleteNotice(eventId: number, noticeId: number, X_SPLATHON_API_TOKEN: string, options?: any) {
+            return AdminApiFp(configuration).deleteNotice(eventId, noticeId, X_SPLATHON_API_TOKEN, options)(fetch, basePath);
         },
         /**
          * 参加者情報取得API
@@ -1387,6 +1533,17 @@ export const AdminApiFactory = function (configuration?: Configuration, fetch?: 
         updateReception(eventId: number, X_SPLATHON_API_TOKEN: string, request: UpdateReceptionRequest, options?: any) {
             return AdminApiFp(configuration).updateReception(eventId, X_SPLATHON_API_TOKEN, request, options)(fetch, basePath);
         },
+        /**
+         * Insert or update notices. Update if Notice.id is specified.
+         * @param {number} eventId 
+         * @param {string} X_SPLATHON_API_TOKEN 
+         * @param {Notice} notice 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        writeNotice(eventId: number, X_SPLATHON_API_TOKEN: string, notice: Notice, options?: any) {
+            return AdminApiFp(configuration).writeNotice(eventId, X_SPLATHON_API_TOKEN, notice, options)(fetch, basePath);
+        },
     };
 };
 
@@ -1408,6 +1565,19 @@ export class AdminApi extends BaseAPI {
      */
     public completeReception(eventId: number, splathonReceptionCode: string, X_SPLATHON_API_TOKEN: string, options?: any) {
         return AdminApiFp(this.configuration).completeReception(eventId, splathonReceptionCode, X_SPLATHON_API_TOKEN, options)(this.fetch, this.basePath);
+    }
+
+    /**
+     * 
+     * @param {number} eventId 
+     * @param {number} noticeId 
+     * @param {string} X_SPLATHON_API_TOKEN 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof AdminApi
+     */
+    public deleteNotice(eventId: number, noticeId: number, X_SPLATHON_API_TOKEN: string, options?: any) {
+        return AdminApiFp(this.configuration).deleteNotice(eventId, noticeId, X_SPLATHON_API_TOKEN, options)(this.fetch, this.basePath);
     }
 
     /**
@@ -1460,6 +1630,19 @@ export class AdminApi extends BaseAPI {
      */
     public updateReception(eventId: number, X_SPLATHON_API_TOKEN: string, request: UpdateReceptionRequest, options?: any) {
         return AdminApiFp(this.configuration).updateReception(eventId, X_SPLATHON_API_TOKEN, request, options)(this.fetch, this.basePath);
+    }
+
+    /**
+     * Insert or update notices. Update if Notice.id is specified.
+     * @param {number} eventId 
+     * @param {string} X_SPLATHON_API_TOKEN 
+     * @param {Notice} notice 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof AdminApi
+     */
+    public writeNotice(eventId: number, X_SPLATHON_API_TOKEN: string, notice: Notice, options?: any) {
+        return AdminApiFp(this.configuration).writeNotice(eventId, X_SPLATHON_API_TOKEN, notice, options)(this.fetch, this.basePath);
     }
 
 }
