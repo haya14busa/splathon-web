@@ -1,5 +1,6 @@
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import * as api from '@/swagger/splathon-api/api';
+import { AdminApi } from '@/lib/api_factory';
 import ReceptionEntry from '@/components/Admin/Splathon/Receptions/Entry/Entry.vue';
 
 @Component({
@@ -11,13 +12,11 @@ export default class Receptions extends Vue {
   @Prop() private token!: string;
   @Prop() private eventNumbering!: number;
 
-  private adminAPI = new api.AdminApi();
-
   private participants: api.ParticipantReception[] = [];
   private completed: api.ParticipantReception[] = [];
 
   protected created() {
-    this.adminAPI.listReception(this.eventNumbering, this.token)
+    AdminApi.listReception(this.eventNumbering, this.token)
       .then((res: api.ListReceptionResponse) => {
         if (!res.participants) {
           return;

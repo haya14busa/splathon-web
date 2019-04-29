@@ -1,5 +1,6 @@
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import * as api from '@/swagger/splathon-api/api';
+import { AdminApi } from '@/lib/api_factory';
 import moment from 'moment';
 import { cloneDeep } from 'lodash';
 import VueNumericInput from 'vue-numeric-input';
@@ -20,7 +21,6 @@ export default class ReceptionEntry extends Vue {
   @Prop() private participant!: api.ParticipantReception;
 
   private entry: api.ParticipantReception;
-  private adminAPI = new api.AdminApi();
   private complete = false;
 
   protected created() {
@@ -39,8 +39,8 @@ export default class ReceptionEntry extends Vue {
     const req: api.UpdateReceptionRequest = {
       complete: this.complete,
       participant: this.entry,
-    }
-    this.adminAPI.updateReception(this.eventNumbering, this.token, req).then(() => {
+    };
+    AdminApi.updateReception(this.eventNumbering, this.token, req).then(() => {
       // TODO(haya14busa): propagate reload method instead of reloading the whole page?
       location.reload();
     }).catch((resp) => {

@@ -2,3 +2,9 @@
 from = "/*"
 to = "/index.html"
 status = 200
+
+[context.production.environment]
+  VUE_APP_SPLATHON_API_BASE_PATH = "https://splathon-api-us.appspot.com/splathon"
+
+[context.dev.environment]
+  VUE_APP_SPLATHON_API_BASE_PATH = "https://splathon-api-dev.appspot.com/splathon"
