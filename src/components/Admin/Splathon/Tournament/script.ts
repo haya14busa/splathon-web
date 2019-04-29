@@ -88,9 +88,7 @@ export default class Tournament extends Vue {
             room_id: roomID,
           });
         }
-        console.log(newMatches);
       }
-      // TODO(haya14busa): fill in this.nextRound.matches.
     } else {
       this.canAddNewRound = true;
       this.restTeamRanks = ranking.rankings;
@@ -124,7 +122,6 @@ export default class Tournament extends Vue {
   }
 
   private teamSelectorName(teamID: number): string {
-    // debugger;
     if (!this.teamRankMap.has(teamID)) {
       return "INVALID TEAM ID: " + teamID;
     }
