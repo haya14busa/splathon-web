@@ -9,14 +9,20 @@
         </router-link>
       </li>
     </ul>
+    <Logout />
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 import * as token from '@/lib/token';
+import Logout from '@/components/Logout/template.vue';
 
-@Component
+@Component({
+  components: {
+    Logout,
+  },
+})
 export default class AdminHome extends Vue {
   private apiToken: string = '';
 

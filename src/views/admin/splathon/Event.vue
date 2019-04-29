@@ -2,6 +2,8 @@
   <div>
     <h3>Splathon #{{ $route.params.event_numbering }} Admin</h3>
 
+    <Logout />
+
     <div id="admin-nav">
       <router-link
         :to="{ name: 'admin-splathon-event-reception', params: { event_numbering: $route.params.event_numbering }}">
@@ -20,8 +22,13 @@
 <script lang="ts">
 import { Component } from 'vue-property-decorator';
 import AdminVue from '@/views/lib/AdminVue';
+import Logout from '@/components/Logout/template.vue';
 
-@Component
+@Component({
+  components: {
+    Logout,
+  },
+})
 export default class Event extends AdminVue {}
 </script>
 
