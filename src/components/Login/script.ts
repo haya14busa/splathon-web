@@ -1,15 +1,13 @@
 import { Component, Vue } from 'vue-property-decorator';
 import * as api from '@/swagger/splathon-api/api';
 import * as token from '@/lib/token';
+import { DefaultApi } from '@/lib/api_factory';
 
 @Component
 export default class Login extends Vue {
   private id: string = '';
   private password: string = '';
   private errmsg: string = '';
-
-  private defaultAPI = new api.DefaultApi();
-  private resultAPI = new api.ResultApi();
 
   private onSubmit() {
     this.errmsg = '';
@@ -18,7 +16,7 @@ export default class Login extends Vue {
       user_id: this.id,
       password: this.password,
     };
-    this.defaultAPI.login(eventNumbering, req).then((res: api.LoginResponse) => {
+    DefaultApi.login(eventNumbering, req).then((res: api.LoginResponse) => {
       if (!res.is_admin) {
         this.errmsg = 'Login failed';
         return;
