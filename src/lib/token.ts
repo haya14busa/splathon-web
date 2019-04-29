@@ -7,3 +7,7 @@ export const Set = (token: string) => {
 export const Get = (): string | null => {
   return localStorage.getItem(KEY);
 };
+
+export const Remove = ()  => {
+  localStorage.removeItem(KEY);
+};
