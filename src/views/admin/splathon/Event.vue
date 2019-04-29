@@ -10,7 +10,10 @@
         Reception</router-link> |
       <router-link
         :to="{ name: 'admin-splathon-event-notices', params: { event_numbering: $route.params.event_numbering }}">
-        Notices</router-link>
+        Notices</router-link> |
+      <router-link
+        :to="{ name: 'admin-splathon-event-tournament', params: { event_numbering: $route.params.event_numbering }}">
+        Tournament</router-link>
     </div>
 
     <hr/>
