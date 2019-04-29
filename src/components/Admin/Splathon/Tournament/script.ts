@@ -26,8 +26,12 @@ export default class Tournament extends Vue {
   private rankings: api.Rank[] = [];
   private tournamentRounds: api.Round[] = [];
   private tournamentSize = 8;
+  private restTeamRanks: api.Rank[] = [];
 
   private nextRound: NextRound = {};
+
+  // TeamID => Rank.
+  private teamRankMap = new Map<number, api.Rank>();
 
   protected async created() {
 
@@ -41,8 +45,11 @@ export default class Tournament extends Vue {
 
     this.eventData = eventData;
     this.rooms = eventData.rooms;
-    this.rankings = ranking.rankings;
     this.tournamentRounds = results.tournament || [];
+
+    ranking.rankings.forEach((r: api.Rank) => {
+      this.teamRankMap.set(r.team.id, r);
+    });
 
     const round = this.tournamentRounds.length + 1;
 
@@ -59,14 +66,14 @@ export default class Tournament extends Vue {
       name: roundName,
     };
 
-    if (this.rankings.length < restTeamSize) {
+    if (ranking.rankings.length < restTeamSize) {
       throw Error('# of ranking is below ' + restTeamSize);
     }
 
     const tpairs: TournamentMatch[] = tournamentPairs(this.tournamentSize);
 
-    const restTeams = new Set<number>();
     if (this.tournamentRounds.length > 0) {
+      const restTeams = new Set<number>();
       const lastRound = this.tournamentRounds[this.tournamentRounds.length - 1];
       lastRound.rooms.forEach((room: api.Room) => {
         room.matches.forEach((match: api.Match) => {
@@ -79,18 +86,35 @@ export default class Tournament extends Vue {
       });
       // TODO(haya14busa): fill in this.nextRound.matches.
     } else {
-      this.rankings.forEach((rank: api.Rank) => {
-        restTeams.add(rank.team.id);
-      });
+      this.restTeamRanks = ranking.rankings;
 
-      this.nextRound.matches = tpairs.map((pair) => {
+      this.nextRound.matches = tpairs.map((pair, i) => {
+        console.log(i);
+        const roomID = this.rooms[i % this.rooms.length].id;
         const n: NextMatch = {
-          alphaTeamID: pair.l,
-          bravoTeamID: pair.r,
+          alphaTeamID: ranking.rankings[pair.l-1].team.id,
+          bravoTeamID: ranking.rankings[pair.r-1].team.id,
+          matchOrderInRoom: Math.floor(i / this.rooms.length) + 1,
+          roomID: roomID,
         }
         return n;
       });
     }
+  }
+
+  private onAdd(event: Event) {
+    event.preventDefault();
+    console.log(this.nextRound);
+    // debugger;
+  }
+
+  private teamSelectorName(teamID: number): string {
+    // debugger;
+    if (!this.teamRankMap.has(teamID)) {
+      return "INVALID TEAM ID: " + teamID;
+    }
+    const rank = this.teamRankMap.get(teamID);
+    return rank.team.name + " (Rank: " + rank.rank + ")";
   }
 
   private handleErr(resp) {

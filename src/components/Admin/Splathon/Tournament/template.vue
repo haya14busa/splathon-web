@@ -2,19 +2,66 @@
   <div class="tournament">
     <h3>決勝トーナメント</h3>
 
-    <!-- {{eventData}} -->
+    <form novalidate class="team-add-content">
+      <md-button class="md-raised md-primary" @click="onAdd" type="submit">
+        Add
+      </md-button>
+      <div class="md-layout">
+        <div class="md-layout-item input-wrapper">
+          <md-field>
+            <label>Round Name</label>
+            <md-input required v-model="nextRound.name"></md-input>
+          </md-field>
+        </div>
+        <div class="md-layout-item input-wrapper">
+          <md-field>
+            <label>Round</label>
+            <md-input required v-model.number="nextRound.round" type="number"></md-input>
+          </md-field>
+        </div>
+      </div>
+      <div v-for="(match, index) in nextRound.matches" :key="index">
+        <div class="md-layout">
+          <div class="md-layout-item input-wrapper">
+            <md-field>
+              <label>Alpha</label>
+              <md-select v-model="match.alphaTeamID">
+                <md-option v-for="(rank, index) in restTeamRanks" :value="rank.team.id" :key="index">
+                  {{teamSelectorName(rank.team.id)}}
+                </md-option>
+              </md-select>
+            </md-field>
+          </div>
+          <div class="md-layout-item input-wrapper">
+            <md-field>
+              <label>Bravo</label>
+              <md-select v-model="match.bravoTeamID">
+                <md-option v-for="(rank, index) in restTeamRanks" :value="rank.team.id" :key="index">
+                  {{teamSelectorName(rank.team.id)}}
+                </md-option>
+              </md-select>
+            </md-field>
+          </div>
+          <div class="md-layout-item md-size-15 input-wrapper">
+            <md-field>
+              <label for="room">Room</label>
+              <md-select name="room" required v-model="match.roomID">
+                <md-option v-for="room in rooms" :value="room.id">
+                  {{room.name}}
+                </md-option>
+              </md-select>
+            </md-field>
+          </div>
+          <div class="md-layout-item md-size-15 input-wrapper">
+            <md-field>
+              <label>Order in Room</label>
+              <md-input v-model.number="match.matchOrderInRoom" type="number"></md-input>
+            </md-field>
+          </div>
+        </div>
+      </div>
+    </form>
 
-    <!-- {{rooms}} -->
-
-    <!-- {{rankings}} -->
-
-    <div v-if="tournamentRounds.length == 0">
-      <md-button class="md-primary md-raised">Add</md-button>
-    </div>
-
-    {{nextRound}}
-
-    {{tournamentRounds}}
   </div>
 </template>
 <style scoped lang="scss" src="./style.scss"></style>
