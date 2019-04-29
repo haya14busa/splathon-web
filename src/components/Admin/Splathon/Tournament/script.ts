@@ -14,6 +14,7 @@ export default class Tournament extends Vue {
   private tournamentRounds: api.Round[] = [];
   private tournamentSize = 8;
   private restTeamRanks: api.Rank[] = [];
+  private canAddNewRound = false;
 
   private nextRound: api.AddTournamentRoundRequest = {
     round_name: '',
@@ -61,23 +62,40 @@ export default class Tournament extends Vue {
     const tpairs: TournamentMatch[] = tournamentPairs(this.tournamentSize);
 
     if (this.tournamentRounds.length > 0) {
-      const restTeams = new Set<number>();
+      const restTeamIDs: number[] = [];
       const lastRound = this.tournamentRounds[this.tournamentRounds.length - 1];
       lastRound.rooms.forEach((room: api.Room) => {
         room.matches.forEach((match: api.Match) => {
           if (match.winner === api.Match.WinnerEnum.Alpha) {
-            restTeams.add(match.teamAlpha.id);
+            restTeamIDs.push(match.teamAlpha.id);
           } else if (match.winner === api.Match.WinnerEnum.Bravo) {
-            restTeams.add(match.teamBravo.id);
+            restTeamIDs.push(match.teamBravo.id);
           }
         });
       });
+      if (!(restTeamIDs.length < restTeamSize || restTeamSize === 1)) {
+        this.canAddNewRound = true;
+        const restTeamSet = new Set(restTeamIDs);
+        this.restTeamRanks = ranking.rankings.filter((r: api.Rank) => {
+          return restTeamSet.has(r.team.id);
+        });
+        for (let i = 0; i < restTeamIDs.length / 2; i++) {
+          const roomID = this.rooms[i % this.rooms.length].id;
+          newMatches.push({
+            alpha_team_id: restTeamIDs[i * 2],
+            bravo_team_id: restTeamIDs[i * 2 + 1],
+            order_in_room: Math.floor(i / this.rooms.length) + 1,
+            room_id: roomID,
+          });
+        }
+        console.log(newMatches);
+      }
       // TODO(haya14busa): fill in this.nextRound.matches.
     } else {
+      this.canAddNewRound = true;
       this.restTeamRanks = ranking.rankings;
 
       newMatches = tpairs.map((pair, i) => {
-        console.log(i);
         const roomID = this.rooms[i % this.rooms.length].id;
         const n: api.NewMatchRequest = {
           alpha_team_id: ranking.rankings[pair.l-1].team.id,
@@ -127,8 +145,8 @@ export default class Tournament extends Vue {
 }
 
 interface TournamentMatch {
-  l: number;
-  r: number;
+  l: number; // Ranking
+  r: number; // Ranking
 }
 
 // Reference: http://tournament-creators.com/abouts/

@@ -2,7 +2,7 @@
   <div class="tournament">
     <h3>決勝トーナメント</h3>
 
-    <form novalidate class="team-add-content">
+    <form v-if="canAddNewRound" novalidate class="team-add-content">
       <md-button class="md-raised md-primary" @click="onAdd" type="submit">
         Add
       </md-button>
@@ -61,6 +61,41 @@
         </div>
       </div>
     </form>
+
+    <div class="tournament-rounds">
+      <h3>Tournament Rounds</h3>
+      <md-card class="round" v-for="(round, i) in tournamentRounds.slice().reverse()" :key="i">
+        <md-card-header>
+          <h4>{{round.name}}</h4>
+        </md-card-header>
+        <md-card-content>
+          <div class="md-layout">
+            <div class="md-layout-item input-wrapper">
+              <md-field>
+                <label>Round Name</label>
+                <md-input required v-model="round.name"></md-input>
+              </md-field>
+            </div>
+            <div class="md-layout-item input-wrapper">
+              <md-field>
+                <label>Round</label>
+                <md-input required v-model.number="round.round" type="number"></md-input>
+              </md-field>
+            </div>
+          </div>
+          <div v-for="(room, j) in round.rooms" :key="j">
+            <h5>{{room.name}}</h5>
+            <div v-for="(match, k) in room.matches" :key="k">
+              <div>{{match.teamAlpha.name}} (alpha) v.s. {{match.teamBravo.name}} (bravo)</div>
+              <div v-if="match.winner">
+                WINNER: {{match.winner}}
+              </div>
+              <div v-else>Upcoming</div>
+            </div>
+          </div>
+        </md-card-content>
+      </md-card>
+    </div>
 
   </div>
 </template>
