@@ -4,6 +4,7 @@ import Home from './views/Home.vue';
 import AdminHome from './views/AdminHome.vue';
 import AdminSplathonEventHome from './views/admin/splathon/Event.vue';
 import AdminSplathonReception from './views/admin/splathon/Reception.vue';
+import AdminSplathonNotices from './views/admin/splathon/Notices.vue';
 import Login from '@/components/Login/Login.vue';
 
 Vue.use(Router);
@@ -44,6 +45,11 @@ export default new Router({
           path: 'reception',
           name: 'admin-splathon-event-reception',
           component: AdminSplathonReception,
+        },
+        {
+          path: 'notices',
+          name: 'admin-splathon-event-notices',
+          component: AdminSplathonNotices,
         },
       ],
     },
