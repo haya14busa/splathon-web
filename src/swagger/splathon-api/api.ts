@@ -161,6 +161,12 @@ export interface Event {
      * @memberof Event
      */
     stages?: Array<Stage>;
+    /**
+     * 
+     * @type {Array<SupportedRoom>}
+     * @memberof Event
+     */
+    rooms?: Array<SupportedRoom>;
 }
 
 /**
@@ -924,6 +930,32 @@ export interface Stage {
      * @memberof Stage
      */
     name?: string;
+}
+
+/**
+ * Room data
+ * @export
+ * @interface SupportedRoom
+ */
+export interface SupportedRoom {
+    /**
+     * Room ID.
+     * @type {number}
+     * @memberof SupportedRoom
+     */
+    id: number;
+    /**
+     * Room name. e.g. A卓
+     * @type {string}
+     * @memberof SupportedRoom
+     */
+    name: string;
+    /**
+     * 
+     * @type {number}
+     * @memberof SupportedRoom
+     */
+    priority: number;
 }
 
 /**
