@@ -6,6 +6,7 @@ import AdminSplathonEventHome from './views/admin/splathon/Event.vue';
 import AdminSplathonReception from './views/admin/splathon/Reception.vue';
 import AdminSplathonNotices from './views/admin/splathon/Notices.vue';
 import AdminSplathonTournament from './views/admin/splathon/Tournament.vue';
+import AdminSplathonQualifier from './views/admin/splathon/Qualifier.vue';
 import Login from '@/components/Login/Login.vue';
 
 Vue.use(Router);
@@ -56,6 +57,11 @@ export default new Router({
           path: 'tournament',
           name: 'admin-splathon-event-tournament',
           component: AdminSplathonTournament,
+        },
+        {
+          path: 'qualifier',
+          name: 'admin-splathon-event-qualifier',
+          component: AdminSplathonQualifier,
         },
       ],
     },
