@@ -1,20 +1,20 @@
 <template>
   <div>
-    <Notices :token=apiToken :eventNumbering=$route.params.event_numbering />
+    <Tournament :token=apiToken :eventNumbering=$route.params.event_numbering />
   </div>
 </template>
 
 <script lang="ts">
 import { Component } from 'vue-property-decorator';
 import AdminVue from '@/views/lib/AdminVue';
-import Notices from '@/components/Admin/Splathon/Notices/Notices.vue';
+import Tournament from '@/components/Admin/Splathon/Tournament/template.vue';
 
 @Component({
   components: {
-    Notices,
+    Tournament,
   },
 })
-export default class NoticesView extends AdminVue {
+export default class TournamentView extends AdminVue {
   private apiToken: string = '';
 
   protected created() {

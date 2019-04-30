@@ -13,3 +13,4 @@ const CONFIG: Configuration = (() => {
 export const AdminApi = new api.AdminApi(CONFIG);
 export const ResultApi = new api.ResultApi(CONFIG);
 export const DefaultApi = new api.DefaultApi(CONFIG);
+export const RankingApi = new api.RankingApi(CONFIG);

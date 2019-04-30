@@ -79,6 +79,32 @@ export class RequiredError extends Error {
 }
 
 /**
+ * 
+ * @export
+ * @interface AddTournamentRoundRequest
+ */
+export interface AddTournamentRoundRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof AddTournamentRoundRequest
+     */
+    round_name: string;
+    /**
+     * 
+     * @type {number}
+     * @memberof AddTournamentRoundRequest
+     */
+    round: number;
+    /**
+     * 
+     * @type {Array<NewMatchRequest>}
+     * @memberof AddTournamentRoundRequest
+     */
+    matches: Array<NewMatchRequest>;
+}
+
+/**
  * バトル。勝敗などは決まってない状態のこともある。
  * @export
  * @interface Battle
@@ -161,6 +187,12 @@ export interface Event {
      * @memberof Event
      */
     stages?: Array<Stage>;
+    /**
+     * 
+     * @type {Array<SupportedRoom>}
+     * @memberof Event
+     */
+    rooms?: Array<SupportedRoom>;
 }
 
 /**
@@ -411,6 +443,38 @@ export interface ModelError {
      * @memberof ModelError
      */
     code?: number;
+}
+
+/**
+ * 
+ * @export
+ * @interface NewMatchRequest
+ */
+export interface NewMatchRequest {
+    /**
+     * 
+     * @type {number}
+     * @memberof NewMatchRequest
+     */
+    alpha_team_id: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof NewMatchRequest
+     */
+    bravo_team_id: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof NewMatchRequest
+     */
+    room_id: number;
+    /**
+     * Match order in this room.
+     * @type {number}
+     * @memberof NewMatchRequest
+     */
+    order_in_room: number;
 }
 
 /**
@@ -849,6 +913,12 @@ export interface Room {
  */
 export interface Round {
     /**
+     * Round ID. (Qualifier ID or Tournament ID)
+     * @type {number}
+     * @memberof Round
+     */
+    id?: number;
+    /**
      * ラウンド名。e.g. 予選第1ラウンド, 決勝T1回戦, 決勝戦
      * @type {string}
      * @memberof Round
@@ -927,6 +997,32 @@ export interface Stage {
 }
 
 /**
+ * Room data
+ * @export
+ * @interface SupportedRoom
+ */
+export interface SupportedRoom {
+    /**
+     * Room ID.
+     * @type {number}
+     * @memberof SupportedRoom
+     */
+    id: number;
+    /**
+     * Room name. e.g. A卓
+     * @type {string}
+     * @memberof SupportedRoom
+     */
+    name: string;
+    /**
+     * 
+     * @type {number}
+     * @memberof SupportedRoom
+     */
+    priority: number;
+}
+
+/**
  * 
  * @export
  * @interface Team
@@ -999,6 +1095,52 @@ export interface UpdateReceptionRequest {
  */
 export const AdminApiFetchParamCreator = function (configuration?: Configuration) {
     return {
+        /**
+         * 
+         * @param {number} eventId 
+         * @param {string} X_SPLATHON_API_TOKEN 
+         * @param {AddTournamentRoundRequest} request 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        addTournamentRound(eventId: number, X_SPLATHON_API_TOKEN: string, request: AddTournamentRoundRequest, options: any = {}): FetchArgs {
+            // verify required parameter 'eventId' is not null or undefined
+            if (eventId === null || eventId === undefined) {
+                throw new RequiredError('eventId','Required parameter eventId was null or undefined when calling addTournamentRound.');
+            }
+            // verify required parameter 'X_SPLATHON_API_TOKEN' is not null or undefined
+            if (X_SPLATHON_API_TOKEN === null || X_SPLATHON_API_TOKEN === undefined) {
+                throw new RequiredError('X_SPLATHON_API_TOKEN','Required parameter X_SPLATHON_API_TOKEN was null or undefined when calling addTournamentRound.');
+            }
+            // verify required parameter 'request' is not null or undefined
+            if (request === null || request === undefined) {
+                throw new RequiredError('request','Required parameter request was null or undefined when calling addTournamentRound.');
+            }
+            const localVarPath = `/v{eventId}/tournament/`
+                .replace(`{${"eventId"}}`, encodeURIComponent(String(eventId)));
+            const localVarUrlObj = url.parse(localVarPath, true);
+            const localVarRequestOptions = Object.assign({ method: 'POST' }, options);
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            if (X_SPLATHON_API_TOKEN !== undefined && X_SPLATHON_API_TOKEN !== null) {
+                localVarHeaderParameter['X-SPLATHON-API-TOKEN'] = String(X_SPLATHON_API_TOKEN);
+            }
+
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            localVarUrlObj.query = Object.assign({}, localVarUrlObj.query, localVarQueryParameter, options.query);
+            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
+            delete localVarUrlObj.search;
+            localVarRequestOptions.headers = Object.assign({}, localVarHeaderParameter, options.headers);
+            const needsSerialization = (<any>"AddTournamentRoundRequest" !== "string") || localVarRequestOptions.headers['Content-Type'] === 'application/json';
+            localVarRequestOptions.body =  needsSerialization ? JSON.stringify(request || {}) : (request || "");
+
+            return {
+                url: url.format(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
         /**
          * 参加登録API
          * @param {number} eventId 
@@ -1319,6 +1461,26 @@ export const AdminApiFetchParamCreator = function (configuration?: Configuration
 export const AdminApiFp = function(configuration?: Configuration) {
     return {
         /**
+         * 
+         * @param {number} eventId 
+         * @param {string} X_SPLATHON_API_TOKEN 
+         * @param {AddTournamentRoundRequest} request 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        addTournamentRound(eventId: number, X_SPLATHON_API_TOKEN: string, request: AddTournamentRoundRequest, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<Response> {
+            const localVarFetchArgs = AdminApiFetchParamCreator(configuration).addTournamentRound(eventId, X_SPLATHON_API_TOKEN, request, options);
+            return (fetch: FetchAPI = portableFetch, basePath: string = BASE_PATH) => {
+                return fetch(basePath + localVarFetchArgs.url, localVarFetchArgs.options).then((response) => {
+                    if (response.status >= 200 && response.status < 300) {
+                        return response;
+                    } else {
+                        throw response;
+                    }
+                });
+            };
+        },
+        /**
          * 参加登録API
          * @param {number} eventId 
          * @param {string} splathonReceptionCode ReceptionResponse.splathon.code と同じもの(たぶん内部SlackID).
@@ -1468,6 +1630,17 @@ export const AdminApiFp = function(configuration?: Configuration) {
 export const AdminApiFactory = function (configuration?: Configuration, fetch?: FetchAPI, basePath?: string) {
     return {
         /**
+         * 
+         * @param {number} eventId 
+         * @param {string} X_SPLATHON_API_TOKEN 
+         * @param {AddTournamentRoundRequest} request 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        addTournamentRound(eventId: number, X_SPLATHON_API_TOKEN: string, request: AddTournamentRoundRequest, options?: any) {
+            return AdminApiFp(configuration).addTournamentRound(eventId, X_SPLATHON_API_TOKEN, request, options)(fetch, basePath);
+        },
+        /**
          * 参加登録API
          * @param {number} eventId 
          * @param {string} splathonReceptionCode ReceptionResponse.splathon.code と同じもの(たぶん内部SlackID).
@@ -1554,6 +1727,19 @@ export const AdminApiFactory = function (configuration?: Configuration, fetch?: 
  * @extends {BaseAPI}
  */
 export class AdminApi extends BaseAPI {
+    /**
+     * 
+     * @param {number} eventId 
+     * @param {string} X_SPLATHON_API_TOKEN 
+     * @param {AddTournamentRoundRequest} request 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof AdminApi
+     */
+    public addTournamentRound(eventId: number, X_SPLATHON_API_TOKEN: string, request: AddTournamentRoundRequest, options?: any) {
+        return AdminApiFp(this.configuration).addTournamentRound(eventId, X_SPLATHON_API_TOKEN, request, options)(this.fetch, this.basePath);
+    }
+
     /**
      * 参加登録API
      * @param {number} eventId 
