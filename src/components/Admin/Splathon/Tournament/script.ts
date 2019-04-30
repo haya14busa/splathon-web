@@ -1,8 +1,13 @@
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import { DefaultApi, AdminApi, RankingApi, ResultApi } from '@/lib/api_factory';
 import * as api from '@/swagger/splathon-api/api';
+import Match from '@/components/Admin/Splathon/Match/template.vue';
 
-@Component({})
+@Component({
+  components: {
+    Match,
+  },
+})
 export default class Tournament extends Vue {
   @Prop() private token!: string;
   @Prop() private eventNumbering!: number;

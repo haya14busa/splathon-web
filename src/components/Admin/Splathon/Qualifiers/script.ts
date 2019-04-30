@@ -1,19 +1,35 @@
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import { DefaultApi, AdminApi, RankingApi, ResultApi } from '@/lib/api_factory';
 import * as api from '@/swagger/splathon-api/api';
+import Match from '@/components/Admin/Splathon/Match/template.vue';
 
-@Component({})
+@Component({
+  components: {
+    Match,
+  },
+})
 export default class Qualifiers extends Vue {
   @Prop() private token!: string;
   @Prop() private eventNumbering!: number;
 
   private releasedRound = -1;
+  private rooms: api.SupportedRoom[] = [];
+  private qualifiers: api.Round[] = [];
 
-  protected created() {
+  protected async created() {
     AdminApi.getReleaseQualifier(this.eventNumbering, this.token)
       .then((round: number) => {
         this.releasedRound = round;
       }).catch(this.handleErr);
+
+    const resultsP = ResultApi.getResult(this.eventNumbering, null, this.token);
+    const eventP: Promise<api.Event> = DefaultApi.getEvent(this.eventNumbering);
+
+    const eventData: api.Event = await eventP;
+    const results: api.Results = await resultsP;
+
+    this.rooms = eventData.rooms;
+    this.qualifiers = results.qualifiers || [];
   }
 
   private onUpdateReleaseRound() {
