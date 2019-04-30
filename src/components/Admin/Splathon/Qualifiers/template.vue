@@ -1,8 +1,6 @@
 <template>
   <div class="qualifier">
-    <h3>予選ラウンド</h3>
-
-    <h4>予選ラウンドリリースフラグ</h4>
+    <h3>予選ラウンドリリースフラグ</h3>
     <md-card class="release-round">
       <div class="md-layout">
         <div class="md-layout-item md-size-15">
@@ -25,8 +23,24 @@
       </div>
     </md-card>
 
+    <h3>予選ラウンド</h3>
+    <md-card v-for="qualifier in qualifiers.slice().reverse()">
+      <h4>予選{{ qualifier.round }}ラウンド</h4>
+
+      <div v-for="room in qualifier.rooms">
+        <div v-for="match in room.matches">
+          <Match
+            :token=token
+            :eventNumbering=eventNumbering
+            :match=match
+            :roomID=room.id
+            :rooms=rooms
+            />
+        </div>
+      </div>
+    </md-card>
+
   </div>
 </template>
 <style scoped lang="scss" src="./style.scss"></style>
 <script lang="ts" src="./script.ts"></script>
-
