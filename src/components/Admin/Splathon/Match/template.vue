@@ -3,6 +3,10 @@
     <div class="md-card md-layout match">
       <div class="md-layout-item">
         <span>{{match.teamAlpha.name}} v.s. {{match.teamBravo.name}}</span>
+        (<span v-if="match.winner">
+          WINNER: {{match.winner}}
+        </span>
+        <span v-else>Upcoming</span>)
       </div>
       <div class="md-layout-item md-size-15 input-wrapper">
         <md-field>
