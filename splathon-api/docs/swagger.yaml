@@ -199,6 +199,9 @@ paths:
         description: team id
         type: integer
         format: int64
+      - name: "X-SPLATHON-API-TOKEN"
+        in: header
+        type: string
       responses:
         200:
           description: Success
@@ -260,6 +263,39 @@ paths:
         required: true
         schema:
           $ref: "#/definitions/Battle"
+      - name: "X-SPLATHON-API-TOKEN"
+        in: header
+        type: string
+        required: true
+      responses:
+        200:
+          description: Success
+        default:
+          description: Generic error
+          schema:
+            $ref: "#/definitions/Error"
+
+    put:
+      tags:
+      - "admin"
+      operationId: "updateMatch"
+      parameters:
+      - name: eventId
+        in: path
+        required: true
+        type: integer
+        format: int64
+      - name: matchId
+        in: path
+        required: true
+        description: match id
+        type: integer
+        format: int64
+      - name: match
+        in: body
+        required: true
+        schema:
+          $ref: "#/definitions/NewMatchRequest"
       - name: "X-SPLATHON-API-TOKEN"
         in: header
         type: string
@@ -508,6 +544,58 @@ paths:
           schema:
             $ref: "#/definitions/Error"
 
+  "/v{eventId}/release-qualifier":
+    get:
+      operationId: "getReleaseQualifier"
+      tags:
+      - "admin"
+      parameters:
+      - name: eventId
+        in: path
+        required: true
+        type: integer
+        format: int64
+      - name: "X-SPLATHON-API-TOKEN"
+        in: header
+        type: string
+        required: true
+      responses:
+        200:
+          description: Success
+          schema:
+            type: integer
+            format: int32
+        default:
+          description: Generic error
+          schema:
+            $ref: "#/definitions/Error"
+
+    put:
+      operationId: "UpdateReleaseQualifier"
+      tags:
+      - "admin"
+      parameters:
+      - name: eventId
+        in: path
+        required: true
+        type: integer
+        format: int64
+      - name: "X-SPLATHON-API-TOKEN"
+        in: header
+        type: string
+        required: true
+      - name: request
+        in: body
+        schema:
+          $ref: "#/definitions/UpdateReleaseQualifierRequest"
+      responses:
+        200:
+          description: Success
+        default:
+          description: Generic error
+          schema:
+            $ref: "#/definitions/Error"
+
 definitions:
   Error:
     type: object
@@ -728,6 +816,9 @@ definitions:
         type: integer
         format: int32
       name:
+        type: string
+      name_kana:
+        description: "チーム名のよみがな(ひらがな)"
         type: string
       short_comment:
         description: "Team の大会にむけての意気込みコメント"
@@ -1089,5 +1180,12 @@ definitions:
         format: int64
       order_in_room:
         description: "Match order in this room."
+        type: integer
+        format: int32
+
+  UpdateReleaseQualifierRequest:
+    type: object
+    properties:
+      round:
         type: integer
         format: int32

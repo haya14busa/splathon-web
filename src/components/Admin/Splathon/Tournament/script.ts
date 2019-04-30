@@ -1,8 +1,18 @@
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import { DefaultApi, AdminApi, RankingApi, ResultApi } from '@/lib/api_factory';
 import * as api from '@/swagger/splathon-api/api';
+import Match from '@/components/Admin/Splathon/Match/template.vue';
 
-@Component({})
+interface TeamRank {
+  rank: number;
+  name: string;
+}
+
+@Component({
+  components: {
+    Match,
+  },
+})
 export default class Tournament extends Vue {
   @Prop() private token!: string;
   @Prop() private eventNumbering!: number;
@@ -23,7 +33,7 @@ export default class Tournament extends Vue {
   };
 
   // TeamID => Rank.
-  private teamRankMap = new Map<number, api.Rank>();
+  private teamRankMap = new Map<number, TeamRank>();
 
   protected async created() {
 
@@ -39,8 +49,8 @@ export default class Tournament extends Vue {
     this.rooms = eventData.rooms;
     this.tournamentRounds = results.tournament || [];
 
-    ranking.rankings.forEach((r: api.Rank) => {
-      this.teamRankMap.set(r.team.id, r);
+    ranking.rankings.forEach((r: api.Rank, i: number) => {
+      this.teamRankMap.set(r.team.id, {rank: i + 1, name: r.team.name});
     });
 
     const round = this.tournamentRounds.length + 1;
@@ -125,8 +135,8 @@ export default class Tournament extends Vue {
     if (!this.teamRankMap.has(teamID)) {
       return "INVALID TEAM ID: " + teamID;
     }
-    const rank = this.teamRankMap.get(teamID);
-    return rank.team.name + " (Rank: " + rank.rank + ")";
+    const teamRank = this.teamRankMap.get(teamID);
+    return teamRank.name + " (Rank: " + teamRank.rank + ")";
   }
 
   private handleErr(resp) {

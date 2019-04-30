@@ -84,13 +84,14 @@
             </div>
           </div>
           <div v-for="(room, j) in round.rooms" :key="j">
-            <h5>{{room.name}}</h5>
             <div v-for="(match, k) in room.matches" :key="k">
-              <div>{{match.teamAlpha.name}} (alpha) v.s. {{match.teamBravo.name}} (bravo)</div>
-              <div v-if="match.winner">
-                WINNER: {{match.winner}}
-              </div>
-              <div v-else>Upcoming</div>
+              <Match
+                :token=token
+                :eventNumbering=eventNumbering
+                :match=match
+                :roomID=room.id
+                :rooms=rooms
+                />
             </div>
           </div>
         </md-card-content>
