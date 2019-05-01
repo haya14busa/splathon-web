@@ -27,6 +27,8 @@
       </tbody>
     </table>
 
+    <div>合計受取金額: {{sumCompletedFee}} 円</div>
+
     <h3>受付未完了</h3>
     <table>
       <thead>
