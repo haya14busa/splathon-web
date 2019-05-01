@@ -14,6 +14,7 @@ export default class Receptions extends Vue {
 
   private participants: api.ParticipantReception[] = [];
   private completed: api.ParticipantReception[] = [];
+  private sumCompletedFee: number = 0;
 
   protected created() {
     AdminApi.listReception(this.eventNumbering, this.token)
@@ -37,6 +38,11 @@ export default class Receptions extends Vue {
           .filter((p) => p.reception)
           .sort((a, b) =>  b.reception.created_at_timestamp_sec - a.reception.created_at_timestamp_sec)
         ;
+
+        this.completed.forEach((p) => {
+          this.sumCompletedFee += p.participant_fee;
+        });
+
       }).catch((resp) => {
         console.log(resp);
         resp.json().then((err: api.ModelError) => {
