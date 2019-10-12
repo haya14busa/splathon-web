@@ -979,6 +979,46 @@ export namespace Rule {
 /**
  * 
  * @export
+ * @interface Schedule
+ */
+export interface Schedule {
+    /**
+     * 
+     * @type {Array<ScheduleEntry>}
+     * @memberof Schedule
+     */
+    entries?: Array<ScheduleEntry>;
+}
+
+/**
+ * 
+ * @export
+ * @interface ScheduleEntry
+ */
+export interface ScheduleEntry {
+    /**
+     * 
+     * @type {string}
+     * @memberof ScheduleEntry
+     */
+    title?: string;
+    /**
+     * Unix timestamp in seconds.
+     * @type {number}
+     * @memberof ScheduleEntry
+     */
+    start_timestamp_sec?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof ScheduleEntry
+     */
+    duration_sec?: number;
+}
+
+/**
+ * 
+ * @export
  * @interface Stage
  */
 export interface Stage {
@@ -1185,6 +1225,43 @@ export const AdminApiFetchParamCreator = function (configuration?: Configuration
             const localVarPath = `/v{eventId}/reception/{splathonReceptionCode}/complete`
                 .replace(`{${"eventId"}}`, encodeURIComponent(String(eventId)))
                 .replace(`{${"splathonReceptionCode"}}`, encodeURIComponent(String(splathonReceptionCode)));
+            const localVarUrlObj = url.parse(localVarPath, true);
+            const localVarRequestOptions = Object.assign({ method: 'POST' }, options);
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            if (X_SPLATHON_API_TOKEN !== undefined && X_SPLATHON_API_TOKEN !== null) {
+                localVarHeaderParameter['X-SPLATHON-API-TOKEN'] = String(X_SPLATHON_API_TOKEN);
+            }
+
+            localVarUrlObj.query = Object.assign({}, localVarUrlObj.query, localVarQueryParameter, options.query);
+            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
+            delete localVarUrlObj.search;
+            localVarRequestOptions.headers = Object.assign({}, localVarHeaderParameter, options.headers);
+
+            return {
+                url: url.format(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {number} eventId 
+         * @param {string} X_SPLATHON_API_TOKEN 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        createNewQualifier(eventId: number, X_SPLATHON_API_TOKEN: string, options: any = {}): FetchArgs {
+            // verify required parameter 'eventId' is not null or undefined
+            if (eventId === null || eventId === undefined) {
+                throw new RequiredError('eventId','Required parameter eventId was null or undefined when calling createNewQualifier.');
+            }
+            // verify required parameter 'X_SPLATHON_API_TOKEN' is not null or undefined
+            if (X_SPLATHON_API_TOKEN === null || X_SPLATHON_API_TOKEN === undefined) {
+                throw new RequiredError('X_SPLATHON_API_TOKEN','Required parameter X_SPLATHON_API_TOKEN was null or undefined when calling createNewQualifier.');
+            }
+            const localVarPath = `/v{eventId}/qualifier`
+                .replace(`{${"eventId"}}`, encodeURIComponent(String(eventId)));
             const localVarUrlObj = url.parse(localVarPath, true);
             const localVarRequestOptions = Object.assign({ method: 'POST' }, options);
             const localVarHeaderParameter = {} as any;
@@ -1654,6 +1731,25 @@ export const AdminApiFp = function(configuration?: Configuration) {
         /**
          * 
          * @param {number} eventId 
+         * @param {string} X_SPLATHON_API_TOKEN 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        createNewQualifier(eventId: number, X_SPLATHON_API_TOKEN: string, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<Response> {
+            const localVarFetchArgs = AdminApiFetchParamCreator(configuration).createNewQualifier(eventId, X_SPLATHON_API_TOKEN, options);
+            return (fetch: FetchAPI = portableFetch, basePath: string = BASE_PATH) => {
+                return fetch(basePath + localVarFetchArgs.url, localVarFetchArgs.options).then((response) => {
+                    if (response.status >= 200 && response.status < 300) {
+                        return response;
+                    } else {
+                        throw response;
+                    }
+                });
+            };
+        },
+        /**
+         * 
+         * @param {number} eventId 
          * @param {number} noticeId 
          * @param {string} X_SPLATHON_API_TOKEN 
          * @param {*} [options] Override http request option.
@@ -1865,6 +1961,16 @@ export const AdminApiFactory = function (configuration?: Configuration, fetch?: 
         /**
          * 
          * @param {number} eventId 
+         * @param {string} X_SPLATHON_API_TOKEN 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        createNewQualifier(eventId: number, X_SPLATHON_API_TOKEN: string, options?: any) {
+            return AdminApiFp(configuration).createNewQualifier(eventId, X_SPLATHON_API_TOKEN, options)(fetch, basePath);
+        },
+        /**
+         * 
+         * @param {number} eventId 
          * @param {number} noticeId 
          * @param {string} X_SPLATHON_API_TOKEN 
          * @param {*} [options] Override http request option.
@@ -1995,6 +2101,18 @@ export class AdminApi extends BaseAPI {
      */
     public completeReception(eventId: number, splathonReceptionCode: string, X_SPLATHON_API_TOKEN: string, options?: any) {
         return AdminApiFp(this.configuration).completeReception(eventId, splathonReceptionCode, X_SPLATHON_API_TOKEN, options)(this.fetch, this.basePath);
+    }
+
+    /**
+     * 
+     * @param {number} eventId 
+     * @param {string} X_SPLATHON_API_TOKEN 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof AdminApi
+     */
+    public createNewQualifier(eventId: number, X_SPLATHON_API_TOKEN: string, options?: any) {
+        return AdminApiFp(this.configuration).createNewQualifier(eventId, X_SPLATHON_API_TOKEN, options)(this.fetch, this.basePath);
     }
 
     /**
@@ -2134,6 +2252,34 @@ export const DefaultApiFetchParamCreator = function (configuration?: Configurati
                 throw new RequiredError('eventId','Required parameter eventId was null or undefined when calling getEvent.');
             }
             const localVarPath = `/v{eventId}/event`
+                .replace(`{${"eventId"}}`, encodeURIComponent(String(eventId)));
+            const localVarUrlObj = url.parse(localVarPath, true);
+            const localVarRequestOptions = Object.assign({ method: 'GET' }, options);
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            localVarUrlObj.query = Object.assign({}, localVarUrlObj.query, localVarQueryParameter, options.query);
+            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
+            delete localVarUrlObj.search;
+            localVarRequestOptions.headers = Object.assign({}, localVarHeaderParameter, options.headers);
+
+            return {
+                url: url.format(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * Return event schedule data
+         * @param {number} eventId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getSchedule(eventId: number, options: any = {}): FetchArgs {
+            // verify required parameter 'eventId' is not null or undefined
+            if (eventId === null || eventId === undefined) {
+                throw new RequiredError('eventId','Required parameter eventId was null or undefined when calling getSchedule.');
+            }
+            const localVarPath = `/v{eventId}/schedule`
                 .replace(`{${"eventId"}}`, encodeURIComponent(String(eventId)));
             const localVarUrlObj = url.parse(localVarPath, true);
             const localVarRequestOptions = Object.assign({ method: 'GET' }, options);
@@ -2314,6 +2460,24 @@ export const DefaultApiFp = function(configuration?: Configuration) {
             };
         },
         /**
+         * Return event schedule data
+         * @param {number} eventId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getSchedule(eventId: number, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<Schedule> {
+            const localVarFetchArgs = DefaultApiFetchParamCreator(configuration).getSchedule(eventId, options);
+            return (fetch: FetchAPI = portableFetch, basePath: string = BASE_PATH) => {
+                return fetch(basePath + localVarFetchArgs.url, localVarFetchArgs.options).then((response) => {
+                    if (response.status >= 200 && response.status < 300) {
+                        return response.json();
+                    } else {
+                        throw response;
+                    }
+                });
+            };
+        },
+        /**
          * Return detail team data
          * @param {number} eventId 
          * @param {number} team_id team id
@@ -2407,6 +2571,15 @@ export const DefaultApiFactory = function (configuration?: Configuration, fetch?
             return DefaultApiFp(configuration).getEvent(eventId, options)(fetch, basePath);
         },
         /**
+         * Return event schedule data
+         * @param {number} eventId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getSchedule(eventId: number, options?: any) {
+            return DefaultApiFp(configuration).getSchedule(eventId, options)(fetch, basePath);
+        },
+        /**
          * Return detail team data
          * @param {number} eventId 
          * @param {number} team_id team id
@@ -2464,6 +2637,17 @@ export class DefaultApi extends BaseAPI {
      */
     public getEvent(eventId: number, options?: any) {
         return DefaultApiFp(this.configuration).getEvent(eventId, options)(this.fetch, this.basePath);
+    }
+
+    /**
+     * Return event schedule data
+     * @param {number} eventId 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof DefaultApi
+     */
+    public getSchedule(eventId: number, options?: any) {
+        return DefaultApiFp(this.configuration).getSchedule(eventId, options)(this.fetch, this.basePath);
     }
 
     /**
