@@ -160,6 +160,20 @@ export namespace Battle {
 /**
  * 
  * @export
+ * @interface DeleteQualifierRequest
+ */
+export interface DeleteQualifierRequest {
+    /**
+     * 
+     * @type {number}
+     * @memberof DeleteQualifierRequest
+     */
+    round?: number;
+}
+
+/**
+ * 
+ * @export
  * @interface Event
  */
 export interface Event {
@@ -1325,6 +1339,48 @@ export const AdminApiFetchParamCreator = function (configuration?: Configuration
             };
         },
         /**
+         * 
+         * @param {number} eventId 
+         * @param {string} X_SPLATHON_API_TOKEN 
+         * @param {DeleteQualifierRequest} [request] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        deleteQualifier(eventId: number, X_SPLATHON_API_TOKEN: string, request?: DeleteQualifierRequest, options: any = {}): FetchArgs {
+            // verify required parameter 'eventId' is not null or undefined
+            if (eventId === null || eventId === undefined) {
+                throw new RequiredError('eventId','Required parameter eventId was null or undefined when calling deleteQualifier.');
+            }
+            // verify required parameter 'X_SPLATHON_API_TOKEN' is not null or undefined
+            if (X_SPLATHON_API_TOKEN === null || X_SPLATHON_API_TOKEN === undefined) {
+                throw new RequiredError('X_SPLATHON_API_TOKEN','Required parameter X_SPLATHON_API_TOKEN was null or undefined when calling deleteQualifier.');
+            }
+            const localVarPath = `/v{eventId}/delete-qualifier`
+                .replace(`{${"eventId"}}`, encodeURIComponent(String(eventId)));
+            const localVarUrlObj = url.parse(localVarPath, true);
+            const localVarRequestOptions = Object.assign({ method: 'POST' }, options);
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            if (X_SPLATHON_API_TOKEN !== undefined && X_SPLATHON_API_TOKEN !== null) {
+                localVarHeaderParameter['X-SPLATHON-API-TOKEN'] = String(X_SPLATHON_API_TOKEN);
+            }
+
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            localVarUrlObj.query = Object.assign({}, localVarUrlObj.query, localVarQueryParameter, options.query);
+            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
+            delete localVarUrlObj.search;
+            localVarRequestOptions.headers = Object.assign({}, localVarHeaderParameter, options.headers);
+            const needsSerialization = (<any>"DeleteQualifierRequest" !== "string") || localVarRequestOptions.headers['Content-Type'] === 'application/json';
+            localVarRequestOptions.body =  needsSerialization ? JSON.stringify(request || {}) : (request || "");
+
+            return {
+                url: url.format(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
          * 参加者情報取得API
          * @param {number} eventId 
          * @param {string} splathonReceptionCode ReceptionResponse.splathon.code と同じもの(たぶん内部SlackID).
@@ -1768,6 +1824,26 @@ export const AdminApiFp = function(configuration?: Configuration) {
             };
         },
         /**
+         * 
+         * @param {number} eventId 
+         * @param {string} X_SPLATHON_API_TOKEN 
+         * @param {DeleteQualifierRequest} [request] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        deleteQualifier(eventId: number, X_SPLATHON_API_TOKEN: string, request?: DeleteQualifierRequest, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<Response> {
+            const localVarFetchArgs = AdminApiFetchParamCreator(configuration).deleteQualifier(eventId, X_SPLATHON_API_TOKEN, request, options);
+            return (fetch: FetchAPI = portableFetch, basePath: string = BASE_PATH) => {
+                return fetch(basePath + localVarFetchArgs.url, localVarFetchArgs.options).then((response) => {
+                    if (response.status >= 200 && response.status < 300) {
+                        return response;
+                    } else {
+                        throw response;
+                    }
+                });
+            };
+        },
+        /**
          * 参加者情報取得API
          * @param {number} eventId 
          * @param {string} splathonReceptionCode ReceptionResponse.splathon.code と同じもの(たぶん内部SlackID).
@@ -1980,6 +2056,17 @@ export const AdminApiFactory = function (configuration?: Configuration, fetch?: 
             return AdminApiFp(configuration).deleteNotice(eventId, noticeId, X_SPLATHON_API_TOKEN, options)(fetch, basePath);
         },
         /**
+         * 
+         * @param {number} eventId 
+         * @param {string} X_SPLATHON_API_TOKEN 
+         * @param {DeleteQualifierRequest} [request] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        deleteQualifier(eventId: number, X_SPLATHON_API_TOKEN: string, request?: DeleteQualifierRequest, options?: any) {
+            return AdminApiFp(configuration).deleteQualifier(eventId, X_SPLATHON_API_TOKEN, request, options)(fetch, basePath);
+        },
+        /**
          * 参加者情報取得API
          * @param {number} eventId 
          * @param {string} splathonReceptionCode ReceptionResponse.splathon.code と同じもの(たぶん内部SlackID).
@@ -2126,6 +2213,19 @@ export class AdminApi extends BaseAPI {
      */
     public deleteNotice(eventId: number, noticeId: number, X_SPLATHON_API_TOKEN: string, options?: any) {
         return AdminApiFp(this.configuration).deleteNotice(eventId, noticeId, X_SPLATHON_API_TOKEN, options)(this.fetch, this.basePath);
+    }
+
+    /**
+     * 
+     * @param {number} eventId 
+     * @param {string} X_SPLATHON_API_TOKEN 
+     * @param {DeleteQualifierRequest} [request] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof AdminApi
+     */
+    public deleteQualifier(eventId: number, X_SPLATHON_API_TOKEN: string, request?: DeleteQualifierRequest, options?: any) {
+        return AdminApiFp(this.configuration).deleteQualifier(eventId, X_SPLATHON_API_TOKEN, request, options)(this.fetch, this.basePath);
     }
 
     /**
