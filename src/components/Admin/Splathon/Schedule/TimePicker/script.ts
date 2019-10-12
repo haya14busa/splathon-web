@@ -30,7 +30,7 @@ export default class TimePicker extends Vue {
   }
 
   private set year(value: number) {
-    if (this.year != value && value > 999) {
+    if (this.year !== value && value > 999) {
       this.emitNew(value, this.month, this.day, this.hour, this.minute);
     }
   }
@@ -40,7 +40,7 @@ export default class TimePicker extends Vue {
   }
 
   private set month(value: number) {
-    if (this.month != value && 1 <= value && value <= 12) {
+    if (this.month !== value && 1 <= value && value <= 12) {
       this.emitNew(this.year, value, this.day, this.hour, this.minute);
     }
   }
@@ -50,7 +50,7 @@ export default class TimePicker extends Vue {
   }
 
   private set day(value: number) {
-    if (this.day != value && 1 <= value && value <= 31) {
+    if (this.day !== value && 1 <= value && value <= 31) {
       this.emitNew(this.year, this.month, value, this.hour, this.minute);
     }
   }
@@ -60,7 +60,7 @@ export default class TimePicker extends Vue {
   }
 
   private set hour(value: number) {
-    if (this.hour != value && 0 <= value && value <= 23) {
+    if (this.hour !== value && 0 <= value && value <= 23) {
       this.emitNew(this.year, this.month, this.day, value, this.minute);
     }
   }
@@ -70,7 +70,7 @@ export default class TimePicker extends Vue {
   }
 
   private set minute(value: number) {
-    if (this.minute != value && 0 <= value && value <= 59) {
+    if (this.minute !== value && 0 <= value && value <= 59) {
       this.emitNew(this.year, this.month, this.day, this.hour, value);
     }
   }
