@@ -65,4 +65,16 @@ export default class Qualifiers extends Vue {
     }
   }
 
+  private deleteRound(round: number) {
+    if (!window.confirm('Round ' + round + ' を削除しますか？')) {
+      return;
+    }
+    AdminApi.deleteQualifier(this.eventNumbering, this.token, {'round': round})
+      .then(() => {
+        // TODO(haya14busa): propagate reload method instead of reloading the whole page?
+        location.reload();
+      })
+      .catch(this.handleErr);
+  }
+
 }
