@@ -34,6 +34,9 @@
 
     <md-card v-for="qualifier in qualifiers.slice().reverse()">
       <h4>予選{{ qualifier.round }}ラウンド</h4>
+      <md-button class="md-raised md-accent" @click="deleteRound(qualifier.round)">
+        Delete
+      </md-button>
 
       <div v-for="room in qualifier.rooms">
         <div v-for="match in room.matches">
