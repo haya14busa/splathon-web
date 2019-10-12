@@ -15,6 +15,7 @@ export default class Qualifiers extends Vue {
   private releasedRound = -1;
   private rooms: api.SupportedRoom[] = [];
   private qualifiers: api.Round[] = [];
+  private disableNewRoundButton = false;
 
   protected async created() {
     AdminApi.getReleaseQualifier(this.eventNumbering, this.token)
@@ -41,6 +42,19 @@ export default class Qualifiers extends Vue {
       .catch(this.handleErr);
   }
 
+  private createNewQualifierRound() {
+    this.disableNewRoundButton = true;
+    AdminApi.createNewQualifier(this.eventNumbering, this.token)
+      .then(() => {
+        // TODO(haya14busa): propagate reload method instead of reloading the whole page?
+        location.reload();
+      })
+      .catch(this.handleErr)
+      .finally(() => {
+        this.disableNewRoundButton = false;
+      });
+  }
+
   private handleErr(resp) {
     if (resp.json) {
       resp.json().then((err: api.ModelError) => {
@@ -50,4 +64,5 @@ export default class Qualifiers extends Vue {
       console.log(resp);
     }
   }
+
 }
