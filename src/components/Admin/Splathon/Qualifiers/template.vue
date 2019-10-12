@@ -24,6 +24,14 @@
     </md-card>
 
     <h3>予選ラウンド</h3>
+
+    <md-card>
+      <md-button class="md-raised md-primary"
+        :disabled="disableNewRoundButton" @click="createNewQualifierRound">
+        次の予選ラウンド作成
+      </md-button>
+    </md-card>
+
     <md-card v-for="qualifier in qualifiers.slice().reverse()">
       <h4>予選{{ qualifier.round }}ラウンド</h4>
 
@@ -39,7 +47,6 @@
         </div>
       </div>
     </md-card>
-
   </div>
 </template>
 <style scoped lang="scss" src="./style.scss"></style>
