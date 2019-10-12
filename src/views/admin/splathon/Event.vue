@@ -6,6 +6,9 @@
 
     <div id="admin-nav">
       <router-link
+        :to="{ name: 'admin-splathon-event-schedule', params: { event_numbering: $route.params.event_numbering }}">
+        Schedule</router-link> |
+      <router-link
         :to="{ name: 'admin-splathon-event-reception', params: { event_numbering: $route.params.event_numbering }}">
         Reception</router-link> |
       <router-link
