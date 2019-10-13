@@ -1,11 +1,17 @@
 <template>
-  <div class="admin">
+<div class="admin">
+    <!-- TODO(haya14busa): List events from API? -->
     <ul>
       <li>
-        <!-- TODO(haya14busa): List events from API -->
         <router-link
           :to="{ name: 'admin-splathon-event-home', params: { event_numbering: 10 }}">
           Splathon #10
+        </router-link>
+      </li>
+      <li>
+        <router-link
+          :to="{ name: 'admin-splathon-event-home', params: { event_numbering: 11 }}">
+          Splathon #11
         </router-link>
       </li>
     </ul>
