@@ -1690,6 +1690,52 @@ export const AdminApiFetchParamCreator = function (configuration?: Configuration
             };
         },
         /**
+         * Update event schedule data
+         * @param {number} eventId 
+         * @param {string} X_SPLATHON_API_TOKEN 
+         * @param {Schedule} request 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        updateSchedule(eventId: number, X_SPLATHON_API_TOKEN: string, request: Schedule, options: any = {}): FetchArgs {
+            // verify required parameter 'eventId' is not null or undefined
+            if (eventId === null || eventId === undefined) {
+                throw new RequiredError('eventId','Required parameter eventId was null or undefined when calling updateSchedule.');
+            }
+            // verify required parameter 'X_SPLATHON_API_TOKEN' is not null or undefined
+            if (X_SPLATHON_API_TOKEN === null || X_SPLATHON_API_TOKEN === undefined) {
+                throw new RequiredError('X_SPLATHON_API_TOKEN','Required parameter X_SPLATHON_API_TOKEN was null or undefined when calling updateSchedule.');
+            }
+            // verify required parameter 'request' is not null or undefined
+            if (request === null || request === undefined) {
+                throw new RequiredError('request','Required parameter request was null or undefined when calling updateSchedule.');
+            }
+            const localVarPath = `/v{eventId}/schedule`
+                .replace(`{${"eventId"}}`, encodeURIComponent(String(eventId)));
+            const localVarUrlObj = url.parse(localVarPath, true);
+            const localVarRequestOptions = Object.assign({ method: 'PUT' }, options);
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            if (X_SPLATHON_API_TOKEN !== undefined && X_SPLATHON_API_TOKEN !== null) {
+                localVarHeaderParameter['X-SPLATHON-API-TOKEN'] = String(X_SPLATHON_API_TOKEN);
+            }
+
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            localVarUrlObj.query = Object.assign({}, localVarUrlObj.query, localVarQueryParameter, options.query);
+            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
+            delete localVarUrlObj.search;
+            localVarRequestOptions.headers = Object.assign({}, localVarHeaderParameter, options.headers);
+            const needsSerialization = (<any>"Schedule" !== "string") || localVarRequestOptions.headers['Content-Type'] === 'application/json';
+            localVarRequestOptions.body =  needsSerialization ? JSON.stringify(request || {}) : (request || "");
+
+            return {
+                url: url.format(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
          * Insert or update notices. Update if Notice.id is specified.
          * @param {number} eventId 
          * @param {string} X_SPLATHON_API_TOKEN 
@@ -1984,6 +2030,26 @@ export const AdminApiFp = function(configuration?: Configuration) {
             };
         },
         /**
+         * Update event schedule data
+         * @param {number} eventId 
+         * @param {string} X_SPLATHON_API_TOKEN 
+         * @param {Schedule} request 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        updateSchedule(eventId: number, X_SPLATHON_API_TOKEN: string, request: Schedule, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<Response> {
+            const localVarFetchArgs = AdminApiFetchParamCreator(configuration).updateSchedule(eventId, X_SPLATHON_API_TOKEN, request, options);
+            return (fetch: FetchAPI = portableFetch, basePath: string = BASE_PATH) => {
+                return fetch(basePath + localVarFetchArgs.url, localVarFetchArgs.options).then((response) => {
+                    if (response.status >= 200 && response.status < 300) {
+                        return response;
+                    } else {
+                        throw response;
+                    }
+                });
+            };
+        },
+        /**
          * Insert or update notices. Update if Notice.id is specified.
          * @param {number} eventId 
          * @param {string} X_SPLATHON_API_TOKEN 
@@ -2142,6 +2208,17 @@ export const AdminApiFactory = function (configuration?: Configuration, fetch?: 
          */
         updateReleaseQualifier(eventId: number, X_SPLATHON_API_TOKEN: string, request?: UpdateReleaseQualifierRequest, options?: any) {
             return AdminApiFp(configuration).updateReleaseQualifier(eventId, X_SPLATHON_API_TOKEN, request, options)(fetch, basePath);
+        },
+        /**
+         * Update event schedule data
+         * @param {number} eventId 
+         * @param {string} X_SPLATHON_API_TOKEN 
+         * @param {Schedule} request 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        updateSchedule(eventId: number, X_SPLATHON_API_TOKEN: string, request: Schedule, options?: any) {
+            return AdminApiFp(configuration).updateSchedule(eventId, X_SPLATHON_API_TOKEN, request, options)(fetch, basePath);
         },
         /**
          * Insert or update notices. Update if Notice.id is specified.
@@ -2317,6 +2394,19 @@ export class AdminApi extends BaseAPI {
      */
     public updateReleaseQualifier(eventId: number, X_SPLATHON_API_TOKEN: string, request?: UpdateReleaseQualifierRequest, options?: any) {
         return AdminApiFp(this.configuration).updateReleaseQualifier(eventId, X_SPLATHON_API_TOKEN, request, options)(this.fetch, this.basePath);
+    }
+
+    /**
+     * Update event schedule data
+     * @param {number} eventId 
+     * @param {string} X_SPLATHON_API_TOKEN 
+     * @param {Schedule} request 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof AdminApi
+     */
+    public updateSchedule(eventId: number, X_SPLATHON_API_TOKEN: string, request: Schedule, options?: any) {
+        return AdminApiFp(this.configuration).updateSchedule(eventId, X_SPLATHON_API_TOKEN, request, options)(this.fetch, this.basePath);
     }
 
     /**

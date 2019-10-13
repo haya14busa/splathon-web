@@ -1,0 +1,21 @@
+.schedule {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 10px;
+}
+
+.entry {
+  display: flex;
+  padding: 5px;
+}
+
+.duration {
+  max-width: 120px;
+  margin-left: 20px;
+}
+
+.title {
+  min-width: 400px;
+  width: unset;
+  margin-right: 15px;
+}
