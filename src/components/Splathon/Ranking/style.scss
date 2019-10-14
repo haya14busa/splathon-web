@@ -1,0 +1,28 @@
+.ranking {
+  max-width: 1000px;
+  margin: 0 auto 20px;
+}
+
+.team {
+  display: flex;
+  justify-content: space-between;
+}
+
+.members {
+  display: flex;
+}
+
+.member-icon {
+  margin: 0 2px;
+  cursor: pointer;
+}
+
+.team-name {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.team-name span {
+  display: inline-block;
+}

@@ -18,6 +18,9 @@
         :to="{ name: 'admin-splathon-event-qualifier', params: { event_numbering: $route.params.event_numbering }}">
         Qualifier</router-link> |
       <router-link
+        :to="{ name: 'admin-splathon-event-ranking', params: { event_numbering: $route.params.event_numbering }}">
+        Ranking</router-link> |
+      <router-link
         :to="{ name: 'admin-splathon-event-tournament', params: { event_numbering: $route.params.event_numbering }}">
         Tournament</router-link>
     </div>
