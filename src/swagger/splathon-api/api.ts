@@ -3194,10 +3194,11 @@ export const RankingApiFetchParamCreator = function (configuration?: Configurati
         /**
          * 予選ランキングを返す。
          * @param {number} eventId 
+         * @param {boolean} [latest] Return latest ranking if true.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getRanking(eventId: number, options: any = {}): FetchArgs {
+        getRanking(eventId: number, latest?: boolean, options: any = {}): FetchArgs {
             // verify required parameter 'eventId' is not null or undefined
             if (eventId === null || eventId === undefined) {
                 throw new RequiredError('eventId','Required parameter eventId was null or undefined when calling getRanking.');
@@ -3208,6 +3209,10 @@ export const RankingApiFetchParamCreator = function (configuration?: Configurati
             const localVarRequestOptions = Object.assign({ method: 'GET' }, options);
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
+
+            if (latest !== undefined) {
+                localVarQueryParameter['latest'] = latest;
+            }
 
             localVarUrlObj.query = Object.assign({}, localVarUrlObj.query, localVarQueryParameter, options.query);
             // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
@@ -3231,11 +3236,12 @@ export const RankingApiFp = function(configuration?: Configuration) {
         /**
          * 予選ランキングを返す。
          * @param {number} eventId 
+         * @param {boolean} [latest] Return latest ranking if true.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getRanking(eventId: number, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<Ranking> {
-            const localVarFetchArgs = RankingApiFetchParamCreator(configuration).getRanking(eventId, options);
+        getRanking(eventId: number, latest?: boolean, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<Ranking> {
+            const localVarFetchArgs = RankingApiFetchParamCreator(configuration).getRanking(eventId, latest, options);
             return (fetch: FetchAPI = portableFetch, basePath: string = BASE_PATH) => {
                 return fetch(basePath + localVarFetchArgs.url, localVarFetchArgs.options).then((response) => {
                     if (response.status >= 200 && response.status < 300) {
@@ -3258,11 +3264,12 @@ export const RankingApiFactory = function (configuration?: Configuration, fetch?
         /**
          * 予選ランキングを返す。
          * @param {number} eventId 
+         * @param {boolean} [latest] Return latest ranking if true.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getRanking(eventId: number, options?: any) {
-            return RankingApiFp(configuration).getRanking(eventId, options)(fetch, basePath);
+        getRanking(eventId: number, latest?: boolean, options?: any) {
+            return RankingApiFp(configuration).getRanking(eventId, latest, options)(fetch, basePath);
         },
     };
 };
@@ -3277,12 +3284,13 @@ export class RankingApi extends BaseAPI {
     /**
      * 予選ランキングを返す。
      * @param {number} eventId 
+     * @param {boolean} [latest] Return latest ranking if true.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof RankingApi
      */
-    public getRanking(eventId: number, options?: any) {
-        return RankingApiFp(this.configuration).getRanking(eventId, options)(this.fetch, this.basePath);
+    public getRanking(eventId: number, latest?: boolean, options?: any) {
+        return RankingApiFp(this.configuration).getRanking(eventId, latest, options)(this.fetch, this.basePath);
     }
 
 }
