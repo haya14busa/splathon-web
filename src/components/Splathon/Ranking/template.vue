@@ -44,6 +44,7 @@
               <md-table-head>ガチヤグラ</md-table-head>
               <md-table-head>ガチホコバトル</md-table-head>
               <md-table-head>ガチアサリ</md-table-head>
+              <md-table-head>メインウェポン</md-table-head>
               <md-table-head>コメント</md-table-head>
             </md-table-row>
             <md-table-row v-for="member in team.members">
@@ -67,6 +68,9 @@
                 </md-table-cell>
                 <md-table-cell>
                   <span>{{member.detail.rank_clam_blitz}}</span>
+                </md-table-cell>
+                <md-table-cell>
+                  <span>{{member.detail.main_weapon}}</span>
                 </md-table-cell>
                 <md-table-cell>
                   <span>{{member.detail.short_comment}}</span>
