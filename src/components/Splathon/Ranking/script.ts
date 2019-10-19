@@ -15,9 +15,8 @@ export default class Schedule extends Vue {
 
   private ranking: api.Ranking = {};
 
-  // private showMemberDialog: { [userId: number]: boolean } = {};
-  private showMemberDetailDialog: boolean = false;
-  private member: api.Member = { 'name': '' };
+  private showTeamDetailDialog: boolean = false;
+  private team: api.Team = { 'id': -1, 'name': '' };
 
   protected async created() {
     this.reload();
@@ -27,9 +26,9 @@ export default class Schedule extends Vue {
     this.ranking = await RankingApi.getRanking(this.eventNumbering, /*latest=*/true);
   }
 
-  private showMemberDetail(member: api.Member) {
-    this.member = member;
-    this.showMemberDetailDialog = true;
+  private showTeamDetail(team: api.Team) {
+    this.team = team;
+    this.showTeamDetailDialog = true;
   }
 
 }
