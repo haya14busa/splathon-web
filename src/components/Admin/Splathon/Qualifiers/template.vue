@@ -38,19 +38,17 @@
         Delete
       </md-button>
 
-      <md-table md-card>
-        <template v-for="room in qualifier.rooms">
-          <template v-for="match in room.matches">
-            <Match
-              :token=token
-              :eventNumbering=eventNumbering
-              :match=match
-              :roomID=room.id
-              :rooms=rooms
-              />
-          </template>
-        </template>
-      </md-table>
+      <div v-for="room in qualifier.rooms">
+        <div v-for="match in room.matches">
+          <Match
+            :token=token
+            :eventNumbering=eventNumbering
+            :match=match
+            :roomID=room.id
+            :rooms=rooms
+            />
+        </div>
+      </div>
     </md-card>
   </div>
 </template>
