@@ -41,7 +41,7 @@ export default new Router({
       component: Login,
     },
     {
-      path: '/admin/splathon/v:event_numbering',
+      path: '/admin/splathon/:event_numbering',
       name: 'admin-splathon-event-home',
       component: AdminSplathonEventHome,
       children: [

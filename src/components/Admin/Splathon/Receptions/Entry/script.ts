@@ -17,7 +17,7 @@ import VueNumericInput from 'vue-numeric-input';
 })
 export default class ReceptionEntry extends Vue {
   @Prop() private token!: string;
-  @Prop() private eventNumbering!: number;
+  @Prop() private eventNumbering!: string;
   @Prop() private participant!: api.ParticipantReception;
 
   private entry: api.ParticipantReception;

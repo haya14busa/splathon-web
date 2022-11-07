@@ -14,7 +14,7 @@ import VueNumericInput from 'vue-numeric-input';
 })
 export default class Notice extends Vue {
   @Prop() private token!: string;
-  @Prop() private eventNumbering!: number;
+  @Prop() private eventNumbering!: string;
   @Prop() private notice!: api.Notice;
 
   private entry: api.Notice;

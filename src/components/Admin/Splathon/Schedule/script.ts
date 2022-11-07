@@ -12,7 +12,7 @@ import TimePicker from '@/components/Admin/Splathon/Schedule/TimePicker/template
 })
 export default class Schedule extends Vue {
   @Prop() private token!: string;
-  @Prop() private eventNumbering!: number;
+  @Prop() private eventNumbering!: string;
 
   private schedule: api.Schedule = { 'entries': [] };
   private disableSaveButton = false;

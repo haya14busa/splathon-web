@@ -4,13 +4,13 @@
     <ul>
       <li>
         <router-link
-          :to="{ name: 'admin-splathon-event-home', params: { event_numbering: 10 }}">
+          :to="{ name: 'admin-splathon-event-home', params: { event_numbering: 'v10' }}">
           Splathon #10
         </router-link>
       </li>
       <li>
         <router-link
-          :to="{ name: 'admin-splathon-event-home', params: { event_numbering: 11 }}">
+          :to="{ name: 'admin-splathon-event-home', params: { event_numbering: 'v11' }}">
           Splathon #11
         </router-link>
       </li>

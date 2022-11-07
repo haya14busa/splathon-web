@@ -15,7 +15,7 @@ interface TeamRank {
 })
 export default class Tournament extends Vue {
   @Prop() private token!: string;
-  @Prop() private eventNumbering!: number;
+  @Prop() private eventNumbering!: string;
 
   private result: api.Results | null = null;
   private eventData: api.Event | null = null;

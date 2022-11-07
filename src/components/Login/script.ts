@@ -11,7 +11,7 @@ export default class Login extends Vue {
 
   private onSubmit() {
     this.errmsg = '';
-    const eventNumbering = 10; // Actually, any numbering is fine for admin login.
+    const eventNumbering = 'v10'; // Actually, any numbering is fine for admin login.
     const req: api.LoginRequest = {
       user_id: this.id,
       password: this.password,

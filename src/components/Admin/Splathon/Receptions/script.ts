@@ -10,7 +10,7 @@ import ReceptionEntry from '@/components/Admin/Splathon/Receptions/Entry/Entry.v
 })
 export default class Receptions extends Vue {
   @Prop() private token!: string;
-  @Prop() private eventNumbering!: number;
+  @Prop() private eventNumbering!: string;
 
   private participants: api.ParticipantReception[] = [];
   private completed: api.ParticipantReception[] = [];
