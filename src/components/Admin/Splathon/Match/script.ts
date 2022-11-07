@@ -5,7 +5,7 @@ import * as api from '@/swagger/splathon-api/api';
 @Component({})
 export default class Match extends Vue {
   @Prop() private token!: string;
-  @Prop() private eventNumbering!: number;
+  @Prop() private eventNumbering!: string;
   @Prop() private match!: api.Match;
   @Prop() private roomID!: number;
   @Prop() private rooms!: api.SupportedRoom[];

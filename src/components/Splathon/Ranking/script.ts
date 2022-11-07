@@ -11,7 +11,7 @@ import * as api from '@/swagger/splathon-api/api';
   },
 })
 export default class Schedule extends Vue {
-  @Prop() private eventNumbering!: number;
+  @Prop() private eventNumbering!: string;
 
   private ranking: api.Ranking = {};
 

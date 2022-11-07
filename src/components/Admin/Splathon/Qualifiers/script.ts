@@ -10,7 +10,7 @@ import Match from '@/components/Admin/Splathon/Match/template.vue';
 })
 export default class Qualifiers extends Vue {
   @Prop() private token!: string;
-  @Prop() private eventNumbering!: number;
+  @Prop() private eventNumbering!: string;
 
   private releasedRound = -1;
   private rooms: api.SupportedRoom[] = [];

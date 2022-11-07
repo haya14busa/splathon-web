@@ -10,7 +10,7 @@ import Notice from '@/components/Admin/Splathon/Notices/Notice/template.vue';
 })
 export default class Notices extends Vue {
   @Prop() private token!: string;
-  @Prop() private eventNumbering!: number;
+  @Prop() private eventNumbering!: string;
 
   private notices: api.Notice[] = [];
 

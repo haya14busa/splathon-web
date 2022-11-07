@@ -1,28 +1,23 @@
 <template>
 <div class="admin">
-    <!-- TODO(haya14busa): List events from API? -->
-    <ul>
-      <li>
-        <router-link
-          :to="{ name: 'admin-splathon-event-home', params: { event_numbering: 10 }}">
-          Splathon #10
-        </router-link>
-      </li>
-      <li>
-        <router-link
-          :to="{ name: 'admin-splathon-event-home', params: { event_numbering: 11 }}">
-          Splathon #11
-        </router-link>
-      </li>
-    </ul>
-    <Logout />
-  </div>
+  <ul>
+    <li v-for="event in events.events">
+      <router-link
+        :to="{ name: 'admin-splathon-event-home', params: { event_numbering: 'v' + event.numbering }}">
+        {{ event.name }}
+      </router-link>
+    </li>
+  </ul>
+  <Logout />
+</div>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 import * as token from '@/lib/token';
 import Logout from '@/components/Logout/template.vue';
+import * as api from '@/swagger/splathon-api/api';
+import { DefaultApi } from '@/lib/api_factory';
 
 @Component({
   components: {
@@ -31,6 +26,7 @@ import Logout from '@/components/Logout/template.vue';
 })
 export default class AdminHome extends Vue {
   private apiToken: string = '';
+  private events: api.Events = {};
 
   protected beforeCreate() {
     const t = token.Get();
@@ -39,6 +35,10 @@ export default class AdminHome extends Vue {
       return;
     }
     this.$router.push({name: 'admin-login'});
+  }
+
+  protected async created() {
+    this.events = await DefaultApi.listEvents();
   }
 }
 </script>
