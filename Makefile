@@ -23,3 +23,6 @@ bin/swagger-codegen-cli.jar:
 	mkdir -p bin
 	wget http://central.maven.org/maven2/io/swagger/swagger-codegen-cli/$(SWAGGER_V)/swagger-codegen-cli-$(SWAGGER_V).jar -O bin/swagger-codegen-cli.jar
 
+.PHONY: update-api
+update-api:
+	git subtree pull --prefix=splathon-api git@github.com:splathon/splathon-api.git master 
