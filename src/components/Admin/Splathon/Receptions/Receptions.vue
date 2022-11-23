@@ -17,6 +17,7 @@
           <th>is_staff</th>
           <th>is_player</th>
           <th>has_switch_dock</th>
+          <th>備考</th>
           <th>slack_user_id</th>
         </tr>
       </thead>
@@ -46,6 +47,7 @@
           <th>is_staff</th>
           <th>is_player</th>
           <th>has_switch_dock</th>
+          <th>備考</th>
           <th>slack_user_id</th>
         </tr>
       </thead>
