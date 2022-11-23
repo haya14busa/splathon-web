@@ -29,6 +29,7 @@
     <td>IsStaff: <input type="checkbox" v-model="entry.is_staff"></td>
     <td>IsPlayer: <input type="checkbox" v-model="entry.is_player"></td>
     <td>HasSwitchDock: <input type="checkbox" v-model="entry.has_switch_dock"></td>
+    <td>備考: {{ entry.reception_memo }}</td>
     <td>{{ entry.slack_user_id }}</td>
   </tr>
 </template>

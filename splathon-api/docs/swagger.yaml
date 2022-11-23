@@ -49,6 +49,30 @@ paths:
           schema:
             $ref: "#/definitions/Error"
 
+  "/create-event":
+    post:
+      tags:
+      - "admin"
+      description: "Create event data"
+      operationId: "createEvent"
+      parameters:
+      - name: "X-SPLATHON-API-TOKEN"
+        in: header
+        type: string
+        required: true
+      - name: request
+        in: body
+        required: true
+        schema:
+          $ref: "#/definitions/Event"
+      responses:
+        200:
+          description: Success
+        default:
+          description: Generic error
+          schema:
+            $ref: "#/definitions/Error"
+
   "/{eventId}/event":
     get:
       description: "Return event data"
@@ -63,6 +87,55 @@ paths:
           description: Success
           schema:
             $ref: "#/definitions/Event"
+        default:
+          description: Generic error
+          schema:
+            $ref: "#/definitions/Error"
+    put:
+      tags:
+      - "admin"
+      description: "Update event data"
+      operationId: "updateEvent"
+      parameters:
+      - name: eventId
+        in: path
+        required: true
+        type: string
+        format: int64
+      - name: "X-SPLATHON-API-TOKEN"
+        in: header
+        type: string
+        required: true
+      - name: request
+        in: body
+        required: true
+        schema:
+          $ref: "#/definitions/Event"
+      responses:
+        200:
+          description: Success
+        default:
+          description: Generic error
+          schema:
+            $ref: "#/definitions/Error"
+
+    delete:
+      tags:
+      - "admin"
+      operationId: "deleteEvent"
+      parameters:
+      - name: eventId
+        in: path
+        required: true
+        type: string
+        format: int64
+      - name: "X-SPLATHON-API-TOKEN"
+        in: header
+        type: string
+        required: true
+      responses:
+        200:
+          description: Success
         default:
           description: Generic error
           schema:
@@ -1044,6 +1117,10 @@ definitions:
       numbering:
         type: integer
         format: int32
+      held_on_timestamp_sec:
+        description: "開催日のタイムスタンプ"
+        type: integer
+        format: int64
       rules:
         type: array
         items:
@@ -1212,6 +1289,9 @@ definitions:
       has_companion:
         type: boolean
         description: "同伴者がいるかどうか。いる場合は用スプレッドシート確認。"
+      reception_memo:
+        type: string
+        description: "受付でべんりフリーテキストな備考メモ。弁当の種類・有無など。"
       reception:
         $ref: "#/definitions/Reception"
 
