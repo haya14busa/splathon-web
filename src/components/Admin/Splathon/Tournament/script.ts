@@ -22,7 +22,7 @@ export default class Tournament extends Vue {
   private rooms: api.SupportedRoom[] = [];
   private rankings: api.Rank[] = [];
   private tournamentRounds: api.Round[] = [];
-  private tournamentSize = 8;
+  private tournamentSize = 16;
   private restTeamRanks: api.Rank[] = [];
   private canAddNewRound = false;
 
