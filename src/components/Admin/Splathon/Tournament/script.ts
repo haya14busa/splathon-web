@@ -143,7 +143,7 @@ export default class Tournament extends Vue {
     }
     let matchNum = 0;
     tournamentRounds.forEach(round => {
-      if (round.round != 1) {
+      if (round.round !== 1) {
         return;
       }
       round.rooms.forEach(room => {
