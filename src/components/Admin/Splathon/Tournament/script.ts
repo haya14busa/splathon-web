@@ -22,7 +22,7 @@ export default class Tournament extends Vue {
   private rooms: api.SupportedRoom[] = [];
   private rankings: api.Rank[] = [];
   private tournamentRounds: api.Round[] = [];
-  private tournamentSize = 16;
+  private initialTournamentSize = 16;
   private restTeamRanks: api.Rank[] = [];
   private canAddNewRound = false;
 
@@ -48,28 +48,34 @@ export default class Tournament extends Vue {
     this.eventData = eventData;
     this.rooms = eventData.rooms;
     this.tournamentRounds = results.tournament || [];
+    this.rankings = ranking.rankings;
 
     ranking.rankings.forEach((r: api.Rank, i: number) => {
       this.teamRankMap.set(r.team.id, {rank: i + 1, name: r.team.name});
     });
 
+    this.buildNextRound();
+  }
+
+  protected buildNextRound() {
     const round = this.tournamentRounds.length + 1;
+    const tournamentSize = this.getTournamentSize(this.tournamentRounds);
 
     let roundName = '決勝T' + round + '回戦';
-    const restTeamSize: number = Math.floor(this.tournamentSize / (2 ** (round - 1)));
+    const restTeamSize: number = Math.floor(tournamentSize / (2 ** (round - 1)));
     if (restTeamSize === 4) {
       roundName = '準決勝';
     } else if (restTeamSize === 2) {
       roundName = '決勝';
     }
 
-    if (ranking.rankings.length < restTeamSize) {
+    if (this.rankings.length < restTeamSize) {
       throw Error('# of ranking is below ' + restTeamSize);
     }
 
     let newMatches: api.NewMatchRequest[] = [];
 
-    const tpairs: TournamentMatch[] = tournamentPairs(this.tournamentSize);
+    const tpairs: TournamentMatch[] = tournamentPairs(tournamentSize);
 
     if (this.tournamentRounds.length > 0) {
       const restTeamIDs: number[] = [];
@@ -86,7 +92,7 @@ export default class Tournament extends Vue {
       if (!(restTeamIDs.length < restTeamSize || restTeamSize === 1)) {
         this.canAddNewRound = true;
         const restTeamSet = new Set(restTeamIDs);
-        this.restTeamRanks = ranking.rankings.filter((r: api.Rank) => {
+        this.restTeamRanks = this.rankings.filter((r: api.Rank) => {
           return restTeamSet.has(r.team.id);
         });
         for (let i = 0; i < restTeamIDs.length / 2; i++) {
@@ -101,13 +107,13 @@ export default class Tournament extends Vue {
       }
     } else {
       this.canAddNewRound = true;
-      this.restTeamRanks = ranking.rankings;
+      this.restTeamRanks = this.rankings;
 
       newMatches = tpairs.map((pair, i) => {
         const roomID = this.rooms[i % this.rooms.length].id;
         const n: api.NewMatchRequest = {
-          alpha_team_id: ranking.rankings[pair.l-1].team.id,
-          bravo_team_id: ranking.rankings[pair.r-1].team.id,
+          alpha_team_id: this.rankings[pair.l-1].team.id,
+          bravo_team_id: this.rankings[pair.r-1].team.id,
           order_in_room: Math.floor(i / this.rooms.length) + 1,
           room_id: roomID,
         }
@@ -130,6 +136,23 @@ export default class Tournament extends Vue {
         location.reload();
       }).catch(this.handleErr);
   }
+
+  private getTournamentSize(tournamentRounds: api.Round[]): number {
+    if (!tournamentRounds || tournamentRounds.length < 1) {
+      return this.initialTournamentSize;
+    }
+    let matchNum = 0;
+    tournamentRounds.forEach(round => {
+      if (round.round != 1) {
+        return;
+      }
+      round.rooms.forEach(room => {
+        matchNum += room.matches.length;
+      });
+    });
+    return matchNum*2;
+  }
+
 
   private teamSelectorName(teamID: number): string {
     if (!this.teamRankMap.has(teamID)) {
