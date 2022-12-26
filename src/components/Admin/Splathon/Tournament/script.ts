@@ -38,7 +38,7 @@ export default class Tournament extends Vue {
   protected async created() {
 
     const eventP: Promise<api.Event> = DefaultApi.getEvent(this.eventNumbering);
-    const rankingP: Promise<api.Ranking> = RankingApi.getRanking(this.eventNumbering);
+    const rankingP: Promise<api.Ranking> = RankingApi.getRanking(this.eventNumbering, /*latest=*/true);
     const resultsP: Promise<api.Results> = ResultApi.getResult(this.eventNumbering, /*team_id=*/null, this.token);
 
     const eventData: api.Event = await eventP;
