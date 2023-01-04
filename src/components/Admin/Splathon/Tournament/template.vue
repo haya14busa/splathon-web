@@ -2,6 +2,14 @@
   <div class="tournament">
     <h3>決勝トーナメント</h3>
 
+    <div v-if="tournamentRounds.length == 0">
+      <md-field class="input-tournament-size">
+        <label>Tournament Size (2^N)</label>
+        <md-input required v-model.number="initialTournamentSize" type="number"
+           @change=buildNextRound()></md-input>
+      </md-field>
+    </div>
+
     <form v-if="canAddNewRound" novalidate class="team-add-content">
       <md-button class="md-raised md-primary" @click="onAdd" type="submit">
         Add
